@@ -1,74 +1,107 @@
-import { useEffect, useState } from 'react';
-import { personsImgs } from '../../utils/images';
-import { navigationLinks } from '../../data/data';
+import { useEffect, useState } from "react";
+import { navigationLinks } from "../../data/data";
 import "./Sidebar.css";
-import { useContext } from 'react';
-import { SidebarContext } from '../../context/sidebarContext';
-import myfoto from "../../assets/images/277576572_4930051973790212_6312887034244956070_n.jpg"
-import { BsFillArrowRightSquareFill } from 'react-icons/bs';
-import { Link ,BrowserRouter } from 'react-router-dom';
-import { AppContext } from '../../App';
+import { useContext } from "react";
+import { SidebarContext } from "../../context/sidebarContext";
+import myfoto from "../../assets/images/277576572_4930051973790212_6312887034244956070_n.jpg";
+import { BsFillArrowRightSquareFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import { AppContext } from "../../App";
 
 const Sidebar = () => {
-  const [activeLinkIdx,setActiveLinkIdx] = useState(0);
+  const [activeLinkIdx, setActiveLinkIdx] = useState(0);
   const [sidebarClass, setSidebarClass] = useState("");
   const { isSidebarOpen } = useContext(SidebarContext);
-  const {setHeadTitle ,login ,setLogin ,employee}=useContext(AppContext)
+  const { setHeadTitle, login, setLogin, employee } = useContext(AppContext);
 
   useEffect(() => {
-    if(isSidebarOpen){
-      setSidebarClass('sidebar-change');
+    if (isSidebarOpen) {
+      setSidebarClass("sidebar-change");
     } else {
-      setSidebarClass('');
+      setSidebarClass("");
     }
   }, [isSidebarOpen]);
 
-  const clickLink =(id ,title)=>{
-setActiveLinkIdx(id)
-setHeadTitle(title)
-  }
-  const logOut =()=>{
-    sessionStorage.clear()
-    setLogin(false)
-  }
+  const clickLink = (id, title) => {
+    setActiveLinkIdx(id);
+    setHeadTitle(title);
+  };
+  const logOut = () => {
+    sessionStorage.clear();
+    setLogin(false);
+  };
 
   return (
-   
-    <div className={ `sidebar ${sidebarClass}` }>
-    
+    <div className={`sidebar ${sidebarClass}`}>
       <div className="user-info">
-          <div className="info-img img-fit-cover">
-              <img src={ myfoto } alt="profile image" />
-          </div>
-          <span className="info-name">Hamad</span>
+        <div className="info-img img-fit-cover">
+          <img src={myfoto} alt="profile image" />
+        </div>
+        <span className="info-name">Hamad</span>
       </div>
 
       <nav className="navigation">
-     {login ?     <ul className="nav-list">
-     {login ?       <Link to="/" onClick={logOut}  className={`nav-link ${activeLinkIdx === 0 ? 'active' : ''}`}>
-                     <BsFillArrowRightSquareFill />
-                      <span className="nav-link-text">Log Out</span>
-                  </Link>: <Link to="/" onClick={()=>clickLink(0 , "Login")}  className={`nav-link ${activeLinkIdx === 0 ? 'active' : ''}`}>
-                     <BsFillArrowRightSquareFill />
-                      <span className="nav-link-text">Login</span>
-                  </Link> }
+        {login ? (
+          <ul className="nav-list">
+            {login ? (
+              <Link
+                to="/"
+                onClick={logOut}
+                className={`nav-link ${activeLinkIdx === 0 ? "active" : ""}`}
+              >
+                <BsFillArrowRightSquareFill />
+                <span className="nav-link-text">Log Out</span>
+              </Link>
+            ) : (
+              <Link
+                to="/"
+                onClick={() => clickLink(0, "Login")}
+                className={`nav-link ${activeLinkIdx === 0 ? "active" : ""}`}
+              >
+                <BsFillArrowRightSquareFill />
+                <span className="nav-link-text">Login</span>
+              </Link>
+            )}
 
-                  {employee ? <div>dwdw</div>: navigationLinks.map((navigationLink) => (
-                <li className="nav-item"  key = { navigationLink.id }>
-                  <Link to={`${navigationLink.title }`} onClick={()=>clickLink(navigationLink.id , navigationLink.title)}  className={`nav-link ${navigationLink.id === activeLinkIdx ? 'active' : ''}`}>
-                     <BsFillArrowRightSquareFill />
-                      <span className="nav-link-text">{ navigationLink.title }</span>
+            {employee ? (
+              <li className="nav-item">
+                <Link
+                  to={`/employer-requests`}
+                  onClick={() => clickLink(10, "My Requests")}
+                  className={`nav-link ${10 === activeLinkIdx ? "active" : ""}`}
+                >
+                  <BsFillArrowRightSquareFill />
+                  <span className="nav-link-text">My Requests</span>
+                </Link>
+              </li>
+            ) : (
+              navigationLinks.map((navigationLink) => (
+                <li className="nav-item" key={navigationLink.id}>
+                  <Link
+                    to={`${navigationLink.title}`}
+                    onClick={() =>
+                      clickLink(navigationLink.id, navigationLink.title)
+                    }
+                    className={`nav-link ${
+                      navigationLink.id === activeLinkIdx ? "active" : ""
+                    }`}
+                  >
+                    <BsFillArrowRightSquareFill />
+                    <span className="nav-link-text">
+                      {navigationLink.title}
+                    </span>
                   </Link>
                 </li>
-              ))}
+              ))
+            )}
             {/* {
              
             } */}
-          </ul> :null}
+          </ul>
+        ) : null}
       </nav>
     </div>
-  
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

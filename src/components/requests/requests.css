@@ -53,7 +53,9 @@
 .requests h1 {
   color: white;
 }
-.requests .bachelor, .requests .master, .requests .phd {
+.requests .bachelor,
+.requests .master,
+.requests .phd {
   background-color: rgba(255, 255, 255, 0.562);
   width: 90%;
   margin: auto;
@@ -61,16 +63,22 @@
   border-radius: 8px;
   border: 3px solid var(--clr-pumpkin);
 }
-.requests .bachelor h2, .requests .master h2, .requests .phd h2 {
+.requests .bachelor h2,
+.requests .master h2,
+.requests .phd h2 {
   text-transform: capitalize;
 }
-.requests .bachelor .req-container, .requests .master .req-container, .requests .phd .req-container {
+.requests .bachelor .req-container,
+.requests .master .req-container,
+.requests .phd .req-container {
   display: flex;
   justify-content: center;
   gap: 15px;
   flex-wrap: wrap;
 }
-.requests .bachelor .req-container .request, .requests .master .req-container .request, .requests .phd .req-container .request {
+.requests .bachelor .req-container .request,
+.requests .master .req-container .request,
+.requests .phd .req-container .request {
   background-color: white;
   padding: 10px;
   border-radius: 5px;
@@ -80,14 +88,18 @@
   gap: 10px;
   text-transform: capitalize;
 }
-.requests .bachelor .req-container .request button, .requests .master .req-container .request button, .requests .phd .req-container .request button {
+.requests .bachelor .req-container .request button,
+.requests .master .req-container .request button,
+.requests .phd .req-container .request button {
   background-color: rgb(92, 206, 92);
   padding: 5px 10px;
   color: white;
   cursor: pointer;
   border-radius: 4px;
 }
-.requests .bachelor .req-container .request a, .requests .master .req-container .request a, .requests .phd .req-container .request a {
+.requests .bachelor .req-container .request a,
+.requests .master .req-container .request a,
+.requests .phd .req-container .request a {
   background-color: var(--clr-pumpkin);
   padding: 5px 10px;
   color: white;
