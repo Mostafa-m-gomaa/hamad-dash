@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "./requests.css";
 import { Link } from "react-router-dom";
 import RequestItem from "./RequestItem";
+import ContentTop from "../ContentTop/ContentTop";
 
 const Requests = () => {
   const { route, setLoader } = useContext(AppContext);
@@ -18,12 +19,13 @@ const Requests = () => {
   const [showEmp, setShowEmp] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
-  const clickAssign = (req, user) => {
+  const clickAssign = (req, user, emp) => {
     setRequestId(req);
     setUserId(user);
     setShowEmp(true);
-    console.log(req);
-    console.log(user);
+    if (emp) {
+      setEmpId(emp);
+    }
   };
   const assignEmp = (id) => {
     setEmpId(id);
@@ -31,9 +33,6 @@ const Requests = () => {
   const assign = () => {
     setLoader(true);
     setShowEmp(false);
-    console.log(requestId);
-    console.log(empId);
-    console.log(userId);
     fetch(`${route}/crm/assign`, {
       method: "PUT",
       body: JSON.stringify({
@@ -83,7 +82,7 @@ const Requests = () => {
   };
 
   useEffect(() => {
-    fetch(`${route}/bechlor`, {
+    fetch(`${route}/bachelor`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
@@ -132,6 +131,8 @@ const Requests = () => {
   }, []);
   return (
     <div className="requests">
+      <ContentTop headTitle="Employer Requests" />
+
       {showEmp ? (
         <div className="emps">
           <h2>Choose Employee</h2>
@@ -147,14 +148,26 @@ const Requests = () => {
               </div>
             );
           })}
-          <button onClick={assign}>Assign</button>
-          <button
-            onClick={() => {
-              setShowEmp(false);
+          <div
+            style={{
+              display: "flex",
+              gap: "20px",
+              flexWrap: "wrap",
+              justifyContent: "center",
             }}
           >
-            Close
-          </button>
+            <button onClick={assign} style={{ margin: "0" }}>
+              Assign
+            </button>
+            <button
+              style={{ margin: "0" }}
+              onClick={() => {
+                setShowEmp(false);
+              }}
+            >
+              Close
+            </button>
+          </div>{" "}
         </div>
       ) : null}
       <h1>All Requests</h1>
@@ -169,7 +182,6 @@ const Requests = () => {
                 index={index}
                 clickAssign={clickAssign}
                 acceptRequest={acceptRequest}
-                type={"bechlor"}
               />
             );
           })}
@@ -186,7 +198,6 @@ const Requests = () => {
                 index={index}
                 clickAssign={clickAssign}
                 acceptRequest={acceptRequest}
-                type={"master"}
               />
             );
           })}
@@ -203,7 +214,6 @@ const Requests = () => {
                 index={index}
                 clickAssign={clickAssign}
                 acceptRequest={acceptRequest}
-                type={"phd"}
               />
             );
           })}

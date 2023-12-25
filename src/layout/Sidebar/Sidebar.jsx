@@ -5,14 +5,13 @@ import { useContext } from "react";
 import { SidebarContext } from "../../context/sidebarContext";
 import myfoto from "../../assets/images/277576572_4930051973790212_6312887034244956070_n.jpg";
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { AppContext } from "../../App";
 
 const Sidebar = () => {
-  const [activeLinkIdx, setActiveLinkIdx] = useState(0);
   const [sidebarClass, setSidebarClass] = useState("");
   const { isSidebarOpen } = useContext(SidebarContext);
-  const { setHeadTitle, login, setLogin, employee } = useContext(AppContext);
+  const { login, setLogin, employee } = useContext(AppContext);
 
   useEffect(() => {
     if (isSidebarOpen) {
@@ -21,11 +20,6 @@ const Sidebar = () => {
       setSidebarClass("");
     }
   }, [isSidebarOpen]);
-
-  const clickLink = (id, title) => {
-    setActiveLinkIdx(id);
-    setHeadTitle(title);
-  };
   const logOut = () => {
     sessionStorage.clear();
     setLogin(false);
@@ -41,64 +35,48 @@ const Sidebar = () => {
       </div>
 
       <nav className="navigation">
-        {login ? (
-          <ul className="nav-list">
-            {login ? (
-              <Link
-                to="/"
-                onClick={logOut}
-                className={`nav-link ${activeLinkIdx === 0 ? "active" : ""}`}
-              >
-                <BsFillArrowRightSquareFill />
-                <span className="nav-link-text">Log Out</span>
-              </Link>
-            ) : (
-              <Link
-                to="/"
-                onClick={() => clickLink(0, "Login")}
-                className={`nav-link ${activeLinkIdx === 0 ? "active" : ""}`}
-              >
+        <ul className="nav-list">
+          {login ? (
+            <>
+              <li className="nav-item">
+                <NavLink to="/" onClick={logOut} className={`nav-link `}>
+                  <BsFillArrowRightSquareFill />
+                  <span className="nav-link-text">Log Out</span>
+                </NavLink>
+              </li>
+
+              {employee ? (
+                <li className="nav-item">
+                  <NavLink to={`/employer-requests`} className={`nav-link `}>
+                    <BsFillArrowRightSquareFill />
+                    <span className="nav-link-text">My Requests</span>
+                  </NavLink>
+                </li>
+              ) : (
+                navigationLinks.map((navigationLink) => (
+                  <li className="nav-item" key={navigationLink.id}>
+                    <NavLink
+                      to={`${navigationLink.title}`}
+                      className={`nav-link`}
+                    >
+                      <BsFillArrowRightSquareFill />
+                      <span className="nav-link-text">
+                        {navigationLink.title}
+                      </span>
+                    </NavLink>
+                  </li>
+                ))
+              )}
+            </>
+          ) : (
+            <li className="nav-item">
+              <NavLink to="/" className={`nav-link `}>
                 <BsFillArrowRightSquareFill />
                 <span className="nav-link-text">Login</span>
-              </Link>
-            )}
-
-            {employee ? (
-              <li className="nav-item">
-                <Link
-                  to={`/employer-requests`}
-                  onClick={() => clickLink(10, "My Requests")}
-                  className={`nav-link ${10 === activeLinkIdx ? "active" : ""}`}
-                >
-                  <BsFillArrowRightSquareFill />
-                  <span className="nav-link-text">My Requests</span>
-                </Link>
-              </li>
-            ) : (
-              navigationLinks.map((navigationLink) => (
-                <li className="nav-item" key={navigationLink.id}>
-                  <Link
-                    to={`${navigationLink.title}`}
-                    onClick={() =>
-                      clickLink(navigationLink.id, navigationLink.title)
-                    }
-                    className={`nav-link ${
-                      navigationLink.id === activeLinkIdx ? "active" : ""
-                    }`}
-                  >
-                    <BsFillArrowRightSquareFill />
-                    <span className="nav-link-text">
-                      {navigationLink.title}
-                    </span>
-                  </Link>
-                </li>
-              ))
-            )}
-            {/* {
-             
-            } */}
-          </ul>
-        ) : null}
+              </NavLink>
+            </li>
+          )}
+        </ul>
       </nav>
     </div>
   );

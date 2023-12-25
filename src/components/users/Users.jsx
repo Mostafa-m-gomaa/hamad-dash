@@ -4,6 +4,7 @@ import "./article.css";
 import { AppContext } from "../../App";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ContentTop from "../ContentTop/ContentTop";
 
 const Users = () => {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -97,6 +98,8 @@ const Users = () => {
   }, [refresh]);
   return (
     <div className="articles">
+      <ContentTop headTitle="Users" />
+
       {showConfirm ? (
         <div className="confirm">
           <div>are yoy sure ?</div>

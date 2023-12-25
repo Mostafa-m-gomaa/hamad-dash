@@ -5,6 +5,7 @@ import { AppContext } from "../../App";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
+import ContentTop from "../ContentTop/ContentTop";
 
 const Employers = () => {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -25,7 +26,7 @@ const Employers = () => {
     event.preventDefault();
     setLoader(true);
     try {
-      const response = await fetch(`${route}/users/employees`, {
+      const response = await fetch(`${route}/users`, {
         method: "POST",
         body: JSON.stringify({
           username: userName,
@@ -82,7 +83,7 @@ const Employers = () => {
   };
 
   useEffect(() => {
-    fetch(`${route}/users`, {
+    fetch(`${route}/users/employees`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
@@ -91,12 +92,13 @@ const Employers = () => {
       .then((data) => {
         if (data.data) {
           setUsers(data.data);
-          console.log(data.data);
         }
       });
   }, [refresh]);
   return (
     <div className="articles">
+      <ContentTop headTitle="Employers" />
+
       {showConfirm ? (
         <div className="confirm">
           <div>are yoy sure ?</div>
