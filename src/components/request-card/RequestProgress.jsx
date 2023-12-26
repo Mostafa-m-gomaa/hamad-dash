@@ -17,6 +17,8 @@ import FinalAcceptance from "./Steps/FinalAcceptance";
 import ReciveTicketStep from "./Steps/ReciveTicketStep";
 import ReceiveVisaApply from "./Steps/ReceiveVisaApply";
 import AirPickupReady from "./Steps/AirPickupReady";
+import OrderTabel from "./OrderTabel";
+import "../orders/order.css";
 const RequestProgress = () => {
   const { route, setLoader } = useContext(AppContext);
   const [request, setRequest] = useState({});
@@ -85,6 +87,7 @@ const RequestProgress = () => {
           setRefresh={setRefresh}
           requestDetails={requestDetails}
         />
+        <OrderTabel />
       </div>
     </div>
   );

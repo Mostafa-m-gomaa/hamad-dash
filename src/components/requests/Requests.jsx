@@ -134,40 +134,49 @@ const Requests = () => {
       <ContentTop headTitle="Employer Requests" />
 
       {showEmp ? (
-        <div className="emps">
-          <h2>Choose Employee</h2>
-          {employees.map((item, index) => {
-            return (
-              <div
-                className={item.id === empId ? "emp emp-active" : "emp"}
-                onClick={() => assignEmp(item.id)}
-                key={index}
-              >
-                <div>{item.username}</div>
-                <div>{item.email}</div>
-              </div>
-            );
-          })}
-          <div
-            style={{
-              display: "flex",
-              gap: "20px",
-              flexWrap: "wrap",
-              justifyContent: "center",
-            }}
-          >
-            <button onClick={assign} style={{ margin: "0" }}>
-              Assign
-            </button>
-            <button
-              style={{ margin: "0" }}
-              onClick={() => {
-                setShowEmp(false);
+        <div
+          onClick={(e) => {
+            if (e.target.classList.contains("emps-container")) {
+              setShowEmp(false);
+            }
+          }}
+          className="emps-container"
+        >
+          <div className="emps">
+            <h2>Choose Employee</h2>
+            {employees.map((item, index) => {
+              return (
+                <div
+                  className={item.id === empId ? "emp emp-active" : "emp"}
+                  onClick={() => assignEmp(item.id)}
+                  key={index}
+                >
+                  <div>{item.username}</div>
+                  <div>{item.email}</div>
+                </div>
+              );
+            })}
+            <div
+              style={{
+                display: "flex",
+                gap: "20px",
+                flexWrap: "wrap",
+                justifyContent: "center",
               }}
             >
-              Close
-            </button>
-          </div>{" "}
+              <button onClick={assign} style={{ margin: "0" }}>
+                Assign
+              </button>
+              <button
+                style={{ margin: "0" }}
+                onClick={() => {
+                  setShowEmp(false);
+                }}
+              >
+                Close
+              </button>
+            </div>{" "}
+          </div>
         </div>
       ) : null}
       <h1>All Requests</h1>

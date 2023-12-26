@@ -12,6 +12,7 @@ import Users from "./components/users/Users";
 import Employers from "./components/users/employers";
 import EmployerRequests from "./components/requests/EmployerRequests";
 import RequestProgress from "./components/request-card/RequestProgress";
+import Orders from "./components/orders/Orders";
 
 export const AppContext = createContext();
 
@@ -68,6 +69,7 @@ function App() {
               <Route path="/" element={<Login />} />
               <Route path="/users" element={<Users />} />
               <Route path="/employers" element={<Employers />} />
+              <Route path="/orders" element={<Orders />} />
               <Route path="/employer-requests" element={<EmployerRequests />} />
               <Route
                 path="/employer-requests/:id"
