@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { toast } from "react-toastify";
 
-const ReciveOfferLetterStep = ({ requestDetails, setRefresh }) => {
+const ReciveOfferLetterStep = ({ requestDetails, setRefresh, isDone }) => {
   const { route, setLoader } = useContext(AppContext);
   const { signedOfferLetter } = requestDetails;
   const params = useParams();
@@ -32,8 +32,8 @@ const ReciveOfferLetterStep = ({ requestDetails, setRefresh }) => {
       .finally(() => setLoader(false));
   };
   return (
-    <div className="details">
-      <h2>Receive Offer letter step</h2>
+    <div className={`details ${isDone ? "done" : ""}`}>
+      <h2>Receive Signed Offer letter step</h2>
       <div
         style={{
           display: "flex",
@@ -47,7 +47,7 @@ const ReciveOfferLetterStep = ({ requestDetails, setRefresh }) => {
           type="button"
           style={{ margin: "10px" }}
         >
-          Download uploaded file
+          Download signed offer letter
         </button>
       </div>
       <form onSubmit={onNextStep}>

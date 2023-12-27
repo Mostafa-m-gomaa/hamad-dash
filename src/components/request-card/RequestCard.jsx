@@ -8,9 +8,11 @@ import ContentTop from "../ContentTop/ContentTop";
 const RequestCard = () => {
   const { route, setLoader } = useContext(AppContext);
   const [request, setRequest] = useState({});
+  const [requestDoc, setRequestDoc] = useState({});
   const param = useParams();
 
   useEffect(() => {
+    setLoader(true);
     fetch(`${route}/${param.type}`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -20,9 +22,23 @@ const RequestCard = () => {
       .then((data) => {
         let final = data.data.find((item) => item.id === param.id);
         setRequest(final);
-      });
-  }, []);
-  console.log(request);
+      })
+      .finally(() => setLoader(false));
+  }, [route, param.id, param.type, setLoader]);
+  useEffect(() => {
+    if (request.requestDocId) {
+      fetch(`${route}/crm/reqDoc/${request.requestDocId}`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.data);
+          setRequestDoc(data.data);
+        });
+    }
+  }, [request.requestDocId, route]);
   const bacLinks = [
     {
       name: "cv",
@@ -75,6 +91,38 @@ const RequestCard = () => {
       link: request.MastersDegreeCertificateWithTranscript,
     },
   ];
+  const docLinks = [
+    {
+      name: "Contract",
+      link: requestDoc?.contract,
+    },
+    {
+      name: "Signed Contract",
+      link: requestDoc?.signedContract,
+    },
+    {
+      name: "Offer Letter",
+      link: requestDoc?.offerLetter,
+    },
+    {
+      name: "Signed Offer Letter",
+      link: requestDoc?.signedOfferLetter,
+    },
+
+    {
+      name: "Mohere",
+      link: requestDoc?.MOHERE,
+    },
+    {
+      name: "Mohere Approval",
+      link: requestDoc?.MOHEREApproval,
+    },
+    {
+      name: "Ticket",
+      link: requestDoc?.ticket,
+    },
+  ];
+  console.log(requestDoc);
   return (
     <div className="request-card">
       <ContentTop headTitle="Request Details" />
@@ -88,7 +136,7 @@ const RequestCard = () => {
               Required Specialization : {request.RequiredSpecialization}
             </div>
             <div>Additional Service : {request.additionalService}</div>
-            {param.type === "bachelor" && (
+            {param.type === "Bachelor" && (
               <>
                 {bacLinks.map((item, index) => (
                   <a
@@ -102,7 +150,7 @@ const RequestCard = () => {
                 ))}
               </>
             )}
-            {param.type === "master" && (
+            {param.type === "Master" && (
               <>
                 {masterLinks.map((item, index) => (
                   <a
@@ -116,7 +164,7 @@ const RequestCard = () => {
                 ))}
               </>
             )}
-            {param.type === "phd" && (
+            {param.type === "Phd" && (
               <>
                 {phdLinks.map((item, index) => (
                   <a
@@ -149,6 +197,27 @@ const RequestCard = () => {
             <div>Employee Name : {request.Employee?.username}</div>
             <div>Employee Email : {request.Employee?.email}</div>
           </div>
+          {requestDoc && (
+            <>
+              <h2>Progress Files</h2>
+              <div className="user-details">
+                {docLinks.map((item, index) => (
+                  <>
+                    {item.link && (
+                      <a
+                        key={index}
+                        href={`${item.link}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {item.name}
+                      </a>
+                    )}
+                  </>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

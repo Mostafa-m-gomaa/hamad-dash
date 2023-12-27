@@ -23,8 +23,12 @@
   height: 48px;
   overflow: hidden;
   overflow: hidden;
-  border-radius: 100%;
+  border-radius: 10%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  -webkit-border-radius: 10%;
+  -moz-border-radius: 10%;
+  -ms-border-radius: 10%;
+  -o-border-radius: 10%;
 }
 
 .info-name {

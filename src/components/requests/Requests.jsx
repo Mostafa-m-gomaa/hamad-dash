@@ -1,11 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { AppContext } from "../../App";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "./requests.css";
-import { Link } from "react-router-dom";
-import RequestItem from "./RequestItem";
 import ContentTop from "../ContentTop/ContentTop";
+import { Link } from "react-router-dom";
 
 const Requests = () => {
   const { route, setLoader } = useContext(AppContext);
@@ -179,55 +178,177 @@ const Requests = () => {
           </div>
         </div>
       ) : null}
-      <h1>All Requests</h1>
-      <div className="bachelor">
-        <h2>bachelor</h2>
-        <div className="req-container">
+      <h2>Bachelor</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Employee</th>
+            <th>Current Step</th>
+            <th>Eligiblility</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
           {bechlor.map((item, index) => {
             return (
-              <RequestItem
+              <tr
                 key={index}
-                item={item}
-                index={index}
-                clickAssign={clickAssign}
-                acceptRequest={acceptRequest}
-              />
+                className={`${item.Eligibility === "pending" && "pending"} ${
+                  item.Eligibility !== "pending" && !item.employeeId && "noEmp"
+                } `}
+              >
+                <td>
+                  {item?.UserDetails?.username} - {item?.UserDetails?.email}
+                </td>
+                <td>
+                  {item?.employeeId ? (
+                    <>
+                      {item?.Employee?.username} - {item?.Employee?.email}
+                    </>
+                  ) : (
+                    <>no employee</>
+                  )}
+                </td>
+                <td>{item.currentStep}</td>
+                <td>{item.Eligibility}</td>
+                <td className="buttons">
+                  {item.Eligibility !== "eligible" && (
+                    <button onClick={() => acceptRequest(item.title, item.id)}>
+                      Accept
+                    </button>
+                  )}
+                  <Link to={`/request/${item.title}/${item.id}`}>Details</Link>
+
+                  {item.Eligibility !== "pending" && (
+                    <button
+                      onClick={() =>
+                        clickAssign(item.id, item.UserId, item?.employeeId)
+                      }
+                    >
+                      Assign to emp
+                    </button>
+                  )}
+                </td>
+              </tr>
             );
           })}
-        </div>
-      </div>
-      <div className="master">
-        <h2>master</h2>
-        <div className="req-container">
+        </tbody>
+      </table>
+      <h2>Master</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Employee</th>
+            <th>Current Step</th>
+            <th>Eligiblility</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
           {master.map((item, index) => {
             return (
-              <RequestItem
+              <tr
                 key={index}
-                item={item}
-                index={index}
-                clickAssign={clickAssign}
-                acceptRequest={acceptRequest}
-              />
+                className={`${item.Eligibility === "pending" && "pending"} ${
+                  item.Eligibility !== "pending" && !item.employeeId && "noEmp"
+                } `}
+              >
+                <td>
+                  {item?.UserDetails?.username} - {item?.UserDetails?.email}
+                </td>
+                <td>
+                  {item?.employeeId ? (
+                    <>
+                      {item?.Employee?.username} - {item?.Employee?.email}
+                    </>
+                  ) : (
+                    <>no employee</>
+                  )}
+                </td>
+                <td>{item.currentStep}</td>
+                <td>{item.Eligibility}</td>
+                <td className="buttons">
+                  {item.Eligibility !== "eligible" && (
+                    <button onClick={() => acceptRequest(item.title, item.id)}>
+                      Accept
+                    </button>
+                  )}
+                  <Link to={`/request/${item.title}/${item.id}`}>Details</Link>
+
+                  {item.Eligibility !== "pending" && (
+                    <button
+                      onClick={() =>
+                        clickAssign(item.id, item.UserId, item?.employeeId)
+                      }
+                    >
+                      Assign to emp
+                    </button>
+                  )}
+                </td>
+              </tr>
             );
           })}
-        </div>
-      </div>
-      <div className="phd">
-        <h2>phd</h2>
-        <div className="req-container">
+        </tbody>
+      </table>
+      <h2>PHD</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Employee</th>
+            <th>Current Step</th>
+            <th>Eligiblility</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
           {phd.map((item, index) => {
             return (
-              <RequestItem
+              <tr
                 key={index}
-                item={item}
-                index={index}
-                clickAssign={clickAssign}
-                acceptRequest={acceptRequest}
-              />
+                className={`${item.Eligibility === "pending" && "pending"} ${
+                  item.Eligibility !== "pending" && !item.employeeId && "noEmp"
+                } `}
+              >
+                <td>
+                  {item?.UserDetails?.username} - {item?.UserDetails?.email}
+                </td>
+                <td>
+                  {item?.employeeId ? (
+                    <>
+                      {item?.Employee?.username} - {item?.Employee?.email}
+                    </>
+                  ) : (
+                    <>no employee</>
+                  )}
+                </td>
+                <td>{item.currentStep}</td>
+                <td>{item.Eligibility}</td>
+                <td className="buttons">
+                  {item.Eligibility !== "eligible" && (
+                    <button onClick={() => acceptRequest(item.title, item.id)}>
+                      Accept
+                    </button>
+                  )}
+                  <Link to={`/request/${item.title}/${item.id}`}>Details</Link>
+
+                  {item.Eligibility !== "pending" && (
+                    <button
+                      onClick={() =>
+                        clickAssign(item.id, item.UserId, item?.employeeId)
+                      }
+                    >
+                      Assign to emp
+                    </button>
+                  )}
+                </td>
+              </tr>
             );
           })}
-        </div>
-      </div>
+        </tbody>
+      </table>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { toast } from "react-toastify";
 
-const AirPickupReady = ({ setRefresh }) => {
+const AirPickupReady = ({ setRefresh, isDone }) => {
   const { route, setLoader } = useContext(AppContext);
   const params = useParams();
 
@@ -27,7 +27,7 @@ const AirPickupReady = ({ setRefresh }) => {
       .finally(() => setLoader(false));
   };
   return (
-    <div className="details">
+    <div className={`details ${isDone ? "done" : ""}`}>
       <h2>Air pick up ready</h2>
 
       <form onSubmit={onNextStep}>

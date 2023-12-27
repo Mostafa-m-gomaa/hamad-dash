@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { toast } from "react-toastify";
 
-const EMGSApproval = ({ setRefresh }) => {
+const EMGSApproval = ({ setRefresh, isDone }) => {
   const [totalOrderPrice, setTotalOrderPrice] = useState("");
 
   const { route, setLoader } = useContext(AppContext);
@@ -33,11 +33,11 @@ const EMGSApproval = ({ setRefresh }) => {
       .finally(() => setLoader(false));
   };
   return (
-    <div className="details">
+    <div className={`details ${isDone ? "done" : ""}`}>
       <h2>EMGS Approval</h2>
       <form onSubmit={onNextStep}>
         <label htmlFor="totalOrderPrice" style={{ paddingRight: "20px" }}>
-          Total Order Price :
+          Total Order Price (of next step) :
         </label>
         <input
           type="number"

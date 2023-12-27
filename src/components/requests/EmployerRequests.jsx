@@ -4,13 +4,10 @@ import { AppContext } from "../../App";
 import { ToastContainer, toast } from "react-toastify";
 import "./requests.css";
 import { Link, useParams } from "react-router-dom";
-import RequestItem from "./RequestItem";
 import ContentTop from "../ContentTop/ContentTop";
 
 const EmployerRequests = ({ notMine }) => {
   const { route, setLoader } = useContext(AppContext);
-  const [master, setMaster] = useState([]);
-  const [phd, setPhd] = useState([]);
   const [requests, setrRquests] = useState([]);
 
   const [refresh, setRefresh] = useState(false);
@@ -33,21 +30,48 @@ const EmployerRequests = ({ notMine }) => {
     <div className="requests">
       <ContentTop headTitle="Employer Requests" />
 
-      <h1>All Requests</h1>
-      <div className="bachelor">
-        <div className="req-container">
+      <h2>All Requests</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Employee</th>
+            <th>Type</th>
+            <th>Current Step</th>
+            <th>Eligiblility</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
           {requests.map((item, index) => {
             return (
-              <RequestItem
-                key={index}
-                item={item}
-                index={index}
-                isEmployerView={true}
-              />
+              <tr key={index}>
+                <td>
+                  {item?.UserDetails?.username} - {item?.UserDetails?.email}
+                </td>
+                <td>
+                  {item?.employeeId ? (
+                    <>
+                      {item?.Employee?.username} - {item?.Employee?.email}
+                    </>
+                  ) : (
+                    <>no employee</>
+                  )}
+                </td>
+                <td>{item.title}</td>
+                <td>{item.currentStep}</td>
+                <td>{item.Eligibility}</td>
+                <td className="buttons">
+                  <Link to={`/request/${item.title}/${item.id}`}>Details</Link>
+                  <Link to={`/request-progress/${item.title}/${item.id}`}>
+                    Progress
+                  </Link>
+                </td>
+              </tr>
             );
           })}
-        </div>
-      </div>
+        </tbody>
+      </table>
     </div>
   );
 };

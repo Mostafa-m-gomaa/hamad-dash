@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { toast } from "react-toastify";
 
-const ReceiveVisaApply = ({ requestDetails, setRefresh }) => {
+const ReceiveVisaApply = ({ requestDetails, setRefresh, isDone }) => {
   const { route, setLoader } = useContext(AppContext);
   const { applyingForVisa } = requestDetails;
   const params = useParams();
@@ -28,7 +28,7 @@ const ReceiveVisaApply = ({ requestDetails, setRefresh }) => {
       .finally(() => setLoader(false));
   };
   return (
-    <div className="details">
+    <div className={`details ${isDone ? "done" : ""}`}>
       <h2>Receive Visa Apply</h2>
       <div
         style={{

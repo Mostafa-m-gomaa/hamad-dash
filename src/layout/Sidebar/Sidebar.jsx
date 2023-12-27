@@ -3,11 +3,10 @@ import { navigationLinks } from "../../data/data";
 import "./Sidebar.css";
 import { useContext } from "react";
 import { SidebarContext } from "../../context/sidebarContext";
-import myfoto from "../../assets/images/277576572_4930051973790212_6312887034244956070_n.jpg";
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import { AppContext } from "../../App";
-
+import logo from "../../assets/logo.png";
 const Sidebar = () => {
   const [sidebarClass, setSidebarClass] = useState("");
   const { isSidebarOpen } = useContext(SidebarContext);
@@ -29,9 +28,11 @@ const Sidebar = () => {
     <div className={`sidebar ${sidebarClass}`}>
       <div className="user-info">
         <div className="info-img img-fit-cover">
-          <img src={myfoto} alt="profile image" />
+          <img src={logo} alt="" />
         </div>
-        <span className="info-name">Hamad</span>
+        <span className="info-name">
+          {sessionStorage.getItem("name") && sessionStorage.getItem("name")}
+        </span>
       </div>
 
       <nav className="navigation">

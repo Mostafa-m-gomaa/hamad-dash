@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { toast } from "react-toastify";
 
-const ReciveTicketStep = ({ requestDetails, setRefresh }) => {
+const ReciveTicketStep = ({ requestDetails, setRefresh, isDone }) => {
   const { route, setLoader } = useContext(AppContext);
   const { ticket } = requestDetails;
   const params = useParams();
@@ -31,7 +31,7 @@ const ReciveTicketStep = ({ requestDetails, setRefresh }) => {
       .finally(() => setLoader(false));
   };
   return (
-    <div className="details">
+    <div className={`details ${isDone ? "done" : ""}`}>
       <h2>Receive Ticket step</h2>
       <div
         style={{
@@ -46,7 +46,7 @@ const ReciveTicketStep = ({ requestDetails, setRefresh }) => {
           type="button"
           style={{ margin: "10px" }}
         >
-          Download uploaded file
+          Download ticket
         </button>
       </div>
       <form onSubmit={onNextStep}>

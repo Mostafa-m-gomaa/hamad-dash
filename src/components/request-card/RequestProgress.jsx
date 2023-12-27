@@ -19,13 +19,14 @@ import ReceiveVisaApply from "./Steps/ReceiveVisaApply";
 import AirPickupReady from "./Steps/AirPickupReady";
 import OrderTabel from "./OrderTabel";
 import "../orders/order.css";
+import { getRequestStateOrder } from "../../actions/getRequestStateOrder";
 const RequestProgress = () => {
   const { route, setLoader } = useContext(AppContext);
   const [request, setRequest] = useState({});
   const [requestDetails, setRequestDetails] = useState({});
   const [refresh, setRefresh] = useState(0);
   const param = useParams();
-
+  const role = sessionStorage.getItem("role");
   useEffect(() => {
     fetch(`${route}/${param.type}`, {
       headers: {
@@ -53,6 +54,8 @@ const RequestProgress = () => {
         });
     }
   }, [request, route, refresh]);
+  const order = getRequestStateOrder(request.currentStep);
+  console.log(order);
   return (
     <div className="request-card">
       <ContentTop headTitle="Request Details" />
@@ -60,33 +63,53 @@ const RequestProgress = () => {
         Current State: {request.currentStep}
       </h1>
       <div className="container">
-        <ContactStep requestDetails={requestDetails} setRefresh={setRefresh} />
-        <ReceiveConractFees setRefresh={setRefresh} />
-        <SendOfferLetterStep
-          requestDetails={requestDetails}
-          setRefresh={setRefresh}
-        />
-        <ReciveOfferLetterStep
-          requestDetails={requestDetails}
-          setRefresh={setRefresh}
-        />
-        <ReciveMohere requestDetails={requestDetails} setRefresh={setRefresh} />
-        <ReceiveVisaFees setRefresh={setRefresh} />
-        <EMGSApproval setRefresh={setRefresh} />
-        <ReceiveRegstrationFees setRefresh={setRefresh} />
-        <FinalAcceptance setRefresh={setRefresh} />
-        <ReciveTicketStep
-          setRefresh={setRefresh}
-          requestDetails={requestDetails}
-        />
-        <ReceiveVisaApply
-          setRefresh={setRefresh}
-          requestDetails={requestDetails}
-        />
-        <AirPickupReady
-          setRefresh={setRefresh}
-          requestDetails={requestDetails}
-        />
+        {role === "employee" && (
+          <>
+            <ContactStep
+              isDone={order > 0}
+              requestDetails={requestDetails}
+              setRefresh={setRefresh}
+            />
+            <ReceiveConractFees isDone={order > 1} setRefresh={setRefresh} />
+            <SendOfferLetterStep
+              isDone={order > 2}
+              requestDetails={requestDetails}
+              setRefresh={setRefresh}
+            />
+            <ReciveOfferLetterStep
+              isDone={order > 3}
+              requestDetails={requestDetails}
+              setRefresh={setRefresh}
+            />
+            <ReciveMohere
+              isDone={order > 4}
+              requestDetails={requestDetails}
+              setRefresh={setRefresh}
+            />
+            <ReceiveVisaFees isDone={order > 5} setRefresh={setRefresh} />
+            <EMGSApproval setRefresh={setRefresh} isDone={order > 6} />
+            <ReceiveRegstrationFees
+              isDone={order > 7}
+              setRefresh={setRefresh}
+            />
+            <FinalAcceptance isDone={order > 8} setRefresh={setRefresh} />
+            <ReciveTicketStep
+              setRefresh={setRefresh}
+              isDone={order > 9}
+              requestDetails={requestDetails}
+            />
+            <ReceiveVisaApply
+              setRefresh={setRefresh}
+              isDone={order > 10}
+              requestDetails={requestDetails}
+            />
+            <AirPickupReady
+              isDone={order > 11}
+              setRefresh={setRefresh}
+              requestDetails={requestDetails}
+            />
+          </>
+        )}
         <OrderTabel />
       </div>
     </div>

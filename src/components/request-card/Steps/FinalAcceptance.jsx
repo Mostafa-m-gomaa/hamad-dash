@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { toast } from "react-toastify";
 
-const FinalAcceptance = ({ setRefresh }) => {
+const FinalAcceptance = ({ setRefresh, isDone }) => {
   const { route, setLoader } = useContext(AppContext);
   const params = useParams();
 
@@ -28,7 +28,7 @@ const FinalAcceptance = ({ setRefresh }) => {
       .finally(() => setLoader(false));
   };
   return (
-    <div className="details">
+    <div className={`details ${isDone ? "done" : ""}`}>
       <h2>Receive final acceptance letter</h2>
 
       <form onSubmit={onNextStep}>

@@ -45,7 +45,7 @@ const Login = () => {
         sessionStorage.setItem("role", response.data.role);
 
         setLogin(true);
-        history("/");
+        history("/users");
       } else {
         toast.error("هناك خطأ بكلمة السر أو الأيميل حاول مرة أخري");
       }

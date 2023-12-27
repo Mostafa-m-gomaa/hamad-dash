@@ -5,6 +5,7 @@ import { AppContext } from "../../App";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ContentTop from "../ContentTop/ContentTop";
+import { Link } from "react-router-dom";
 
 const Users = () => {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -17,7 +18,7 @@ const Users = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-
+  const [filter, setFilter] = useState("all");
   const deleteButton = (id) => {
     setShowConfirm(true);
     setArtId(id);
@@ -83,7 +84,7 @@ const Users = () => {
   };
 
   useEffect(() => {
-    fetch(`${route}/users`, {
+    fetch(`${route}/users${filter === "employee" ? "/employees" : ""}`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
@@ -92,10 +93,9 @@ const Users = () => {
       .then((data) => {
         if (data.data) {
           setUsers(data.data);
-          console.log(data.data);
         }
       });
-  }, [refresh]);
+  }, [refresh, filter, route]);
   return (
     <div className="articles">
       <ContentTop headTitle="Users" />
@@ -155,24 +155,51 @@ const Users = () => {
             <button type="submit">add</button>
           </form>
         </div>
-        <div className="all-art">
-          <h1>Users</h1>
-          <div className="arts">
-            {users.map((user, index) => {
+        <div>
+          <label style={{ fontSize: "25px", fontWeight: "700" }}>
+            Filter :{" "}
+          </label>
+          <select
+            style={{ padding: "10px" }}
+            onChange={(e) => setFilter(e.target.value)}
+          >
+            <option value="all">all</option>
+            <option value="employee">employees only</option>
+          </select>
+        </div>
+        <h2 style={{ textAlign: "center" }}>Users</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>UserName</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Request Type</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((item, index) => {
               return (
-                <div className="user-card" key={index}>
-                  <div className="name">user name : {user.username}</div>
-                  <div className="name">{user.email}</div>
-                  <div className="name">role :{user.role}</div>
-                  {user.role === "user" ? (
-                    <div> request type : {user.type} </div>
-                  ) : null}
-                  <button onClick={() => deleteButton(user.id)}>Delete</button>
-                </div>
+                <tr key={index}>
+                  <td>{item.username}</td>
+                  <td>{item.email}</td>
+                  <td>{item.role}</td>
+                  <td>{item.role === "user" ? item.type : "-"}</td>
+                  <td className="buttons">
+                    {item.role === "employee" && (
+                      <Link to={`/employer-requests/${item.id}`}>History</Link>
+                    )}
+
+                    <button onClick={() => deleteButton(user.id)}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
               );
             })}
-          </div>
-        </div>
+          </tbody>
+        </table>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { toast } from "react-toastify";
 
-const ReciveMohere = ({ requestDetails, setRefresh }) => {
+const ReciveMohere = ({ requestDetails, setRefresh, isDone }) => {
   const { route, setLoader } = useContext(AppContext);
   const [totalOrderPrice, setTotalOrderPrice] = useState("");
   const { MOHERE } = requestDetails;
@@ -37,7 +37,7 @@ const ReciveMohere = ({ requestDetails, setRefresh }) => {
       .finally(() => setLoader(false));
   };
   return (
-    <div className="details">
+    <div className={`details ${isDone ? "done" : ""}`}>
       <h2>Receive mohere</h2>
       <div
         style={{
@@ -52,12 +52,12 @@ const ReciveMohere = ({ requestDetails, setRefresh }) => {
           type="button"
           style={{ margin: "10px" }}
         >
-          Download uploaded file
+          Download mohere
         </button>
       </div>
       <form onSubmit={onNextStep}>
         <label htmlFor="totalOrderPrice" style={{ paddingRight: "20px" }}>
-          Total Order Price :
+          Total Order Price (of next step) :
         </label>
         <input
           type="number"

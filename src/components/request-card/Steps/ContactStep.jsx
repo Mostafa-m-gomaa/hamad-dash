@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { toast } from "react-toastify";
 
-const ContactStep = ({ requestDetails, setRefresh }) => {
+const ContactStep = ({ requestDetails, setRefresh, isDone }) => {
   const [contactFile, setContactFile] = useState(null);
   const { route, setLoader } = useContext(AppContext);
   const [totalOrderPrice, setTotalOrderPrice] = useState("");
@@ -59,8 +59,8 @@ const ContactStep = ({ requestDetails, setRefresh }) => {
       .finally(() => setLoader(false));
   };
   return (
-    <div className="details">
-      <h2>Contact Step</h2>
+    <div className={`details ${isDone ? "done" : ""}`}>
+      <h2>Contract Step</h2>
       <form onSubmit={onSubmit}>
         <label htmlFor="contactFile" style={{ paddingRight: "20px" }}>
           Contact File (pdf) :
@@ -86,13 +86,13 @@ const ContactStep = ({ requestDetails, setRefresh }) => {
             type="button"
             style={{ margin: "10px" }}
           >
-            Download uploaded file
+            Download Signed Contract file
           </button>
         </div>
       </form>
       <form onSubmit={onNextStep}>
         <label htmlFor="totalOrderPrice" style={{ paddingRight: "20px" }}>
-          Total Order Price :
+          Total Order Price (of next step) :
         </label>
         <input
           type="number"

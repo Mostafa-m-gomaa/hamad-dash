@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { toast } from "react-toastify";
 
-const OfferLetterStep = ({ setRefresh }) => {
+const OfferLetterStep = ({ setRefresh, isDone }) => {
   const [offerLetterFile, setOfferLetterFile] = useState(null);
   const { route, setLoader } = useContext(AppContext);
   const params = useParams();
@@ -53,7 +53,7 @@ const OfferLetterStep = ({ setRefresh }) => {
       .finally(() => setLoader(false));
   };
   return (
-    <div className="details">
+    <div className={`details ${isDone ? "done" : ""}`}>
       <h2>Send Offer letter step</h2>
       <form onSubmit={onSubmit}>
         <label htmlFor="offerLetterFile" style={{ paddingRight: "20px" }}>

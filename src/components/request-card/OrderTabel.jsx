@@ -32,7 +32,7 @@ const OrderTabel = () => {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
+          {orders?.map((order) => (
             <tr key={order.id}>
               <td>{order.isPaid ? "yes" : "no"}</td>
               <td>{order.totalOrderPrice}</td>
