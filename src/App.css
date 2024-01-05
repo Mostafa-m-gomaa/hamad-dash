@@ -712,6 +712,9 @@ table a,table button {
   -moz-transition: .5s ease;
   -ms-transition: .5s ease;
   -o-transition: .5s ease;
+}table a:disabled,table button:disabled {
+  background-color: #29221d;
+cursor: not-allowed;
 }
 table a:hover,table button:hover{
   background-color: #29221d;
@@ -722,3 +725,44 @@ h2{
   margin-bottom: 20px;
   color: white;
 }
+/* .pagination{
+  width: fit-content;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.pagination button{
+  background-color: #fe6c00;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  font-size: 20px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+.pagination button:disabled{
+  background-color: #29221d;
+  cursor: not-allowed;
+}
+.pagination span{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  font-size: 20px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border: 1px solid #fe6c00;
+} */

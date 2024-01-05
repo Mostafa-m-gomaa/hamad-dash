@@ -63,7 +63,8 @@
   display: flex;
   justify-content: space-between;
 }
-.articles .add form label input {
+.articles .add form label input,
+.articles .add form label textarea {
   width: 60%;
 }
 .articles .all-art {

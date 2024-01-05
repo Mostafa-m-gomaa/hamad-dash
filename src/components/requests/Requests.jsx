@@ -17,7 +17,9 @@ const Requests = () => {
   const [empId, setEmpId] = useState("");
   const [showEmp, setShowEmp] = useState(false);
   const [refresh, setRefresh] = useState(false);
-
+  const [keyword, setKeyword] = useState("");
+  const [countries, setCountries] = useState([]);
+  const [services, setServices] = useState([]);
   const clickAssign = (req, user, emp) => {
     setRequestId(req);
     setUserId(user);
@@ -81,7 +83,7 @@ const Requests = () => {
   };
 
   useEffect(() => {
-    fetch(`${route}/bachelor`, {
+    fetch(`${route}/bachelor${keyword ? `?keyword=${keyword}` : ""}`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
@@ -92,7 +94,7 @@ const Requests = () => {
           setBechlor(data.data);
         }
       });
-    fetch(`${route}/master`, {
+    fetch(`${route}/master${keyword ? `?keyword=${keyword}` : ""}`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
@@ -103,7 +105,7 @@ const Requests = () => {
           setMaster(data.data);
         }
       });
-    fetch(`${route}/phd`, {
+    fetch(`${route}/phd${keyword ? `?keyword=${keyword}` : ""}`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
@@ -114,7 +116,7 @@ const Requests = () => {
           setPhd(data.data);
         }
       });
-  }, [refresh]);
+  }, [refresh, route, keyword]);
   useEffect(() => {
     fetch(`${route}/users/employees`, {
       headers: {
@@ -125,6 +127,22 @@ const Requests = () => {
       .then((data) => {
         if (data.data) {
           setEmployees(data.data);
+        }
+      });
+  }, []);
+  useEffect(() => {
+    fetch(`${route}/countryOfStudy`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data) {
+          setCountries(data.data);
+        }
+      });
+    fetch(`${route}/service`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data) {
+          setServices(data.data);
         }
       });
   }, []);
@@ -178,6 +196,50 @@ const Requests = () => {
           </div>
         </div>
       ) : null}
+      <div
+        style={{
+          color: "white",
+          display: "flex",
+          justifyContent: "start",
+          gap: "10px",
+        }}
+      >
+        <label style={{ fontSize: "25px", fontWeight: "700" }}>
+          Country :{" "}
+        </label>
+        <select
+          style={{ padding: "10px" }}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        >
+          <option value="all">all</option>
+          {countries.map((item, index) => {
+            return (
+              <option key={index} value={item.title}>
+                {item.title}
+              </option>
+            );
+          })}
+        </select>
+        <label style={{ fontSize: "25px", fontWeight: "700" }}>
+          Service :{" "}
+        </label>
+        <select
+          value={keyword}
+          style={{ padding: "10px" }}
+          onChange={(e) => setKeyword(e.target.value)}
+        >
+          <option value="all">all</option>
+          {services.map((item, index) => {
+            return (
+              <option key={index} value={item.title}>
+                {item.title}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+
       <h2>Bachelor</h2>
       <table>
         <thead>

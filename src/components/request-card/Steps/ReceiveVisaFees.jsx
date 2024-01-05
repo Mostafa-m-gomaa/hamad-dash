@@ -3,9 +3,10 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { toast } from "react-toastify";
 
-const ReceiveVisaFees = ({ setRefresh, isDone }) => {
+const ReceiveVisaFees = ({ setRefresh, isDone, requestDetails }) => {
   const { route, setLoader } = useContext(AppContext);
   const params = useParams();
+  const { visaFeesFile } = requestDetails;
 
   const onNextStep = (e) => {
     e.preventDefault();
@@ -41,6 +42,16 @@ const ReceiveVisaFees = ({ setRefresh, isDone }) => {
         >
           <button type="submit" style={{ margin: "10px" }}>
             Next
+          </button>
+          <button
+            disabled={visaFeesFile == null}
+            onClick={() => {
+              window.open(visaFeesFile, "_blank");
+            }}
+            type="button"
+            style={{ margin: "10px" }}
+          >
+            Download Visa fees file
           </button>
         </div>
       </form>

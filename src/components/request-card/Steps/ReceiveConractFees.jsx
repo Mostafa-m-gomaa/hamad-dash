@@ -3,8 +3,10 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { toast } from "react-toastify";
 
-const ReceiveConractFees = ({ setRefresh, isDone }) => {
+const ReceiveConractFees = ({ setRefresh, isDone, requestDetails }) => {
   const { route, setLoader } = useContext(AppContext);
+  const { contractFeesFile } = requestDetails;
+
   const params = useParams();
 
   const onNextStep = (e) => {
@@ -41,6 +43,16 @@ const ReceiveConractFees = ({ setRefresh, isDone }) => {
         >
           <button type="submit" style={{ margin: "10px" }}>
             Next
+          </button>
+          <button
+            disabled={contractFeesFile == null}
+            onClick={() => {
+              window.open(contractFeesFile, "_blank");
+            }}
+            type="button"
+            style={{ margin: "10px" }}
+          >
+            Download Contract fees file
           </button>
         </div>
       </form>

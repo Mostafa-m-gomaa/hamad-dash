@@ -13,6 +13,8 @@ import Employers from "./components/users/employers";
 import EmployerRequests from "./components/requests/EmployerRequests";
 import RequestProgress from "./components/request-card/RequestProgress";
 import Orders from "./components/orders/Orders";
+import Country from "./components/Country";
+import Services from "./components/Services";
 
 export const AppContext = createContext();
 
@@ -68,6 +70,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/users" element={<Users />} />
+              <Route path="/countries" element={<Country />} />
+              <Route path="/services" element={<Services />} />
               <Route path="/employers" element={<Employers />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/employer-requests" element={<EmployerRequests />} />

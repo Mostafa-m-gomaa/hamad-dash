@@ -20,6 +20,8 @@ import AirPickupReady from "./Steps/AirPickupReady";
 import OrderTabel from "./OrderTabel";
 import "../orders/order.css";
 import { getRequestStateOrder } from "../../actions/getRequestStateOrder";
+import SendMohereApproval from "./Steps/SendMohereApproval";
+import SendEval from "./Steps/SendEval";
 const RequestProgress = () => {
   const { route, setLoader } = useContext(AppContext);
   const [request, setRequest] = useState({});
@@ -70,7 +72,11 @@ const RequestProgress = () => {
               requestDetails={requestDetails}
               setRefresh={setRefresh}
             />
-            <ReceiveConractFees isDone={order > 1} setRefresh={setRefresh} />
+            <ReceiveConractFees
+              isDone={order > 1}
+              requestDetails={requestDetails}
+              setRefresh={setRefresh}
+            />
             <SendOfferLetterStep
               isDone={order > 2}
               requestDetails={requestDetails}
@@ -86,25 +92,33 @@ const RequestProgress = () => {
               requestDetails={requestDetails}
               setRefresh={setRefresh}
             />
-            <ReceiveVisaFees isDone={order > 5} setRefresh={setRefresh} />
-            <EMGSApproval setRefresh={setRefresh} isDone={order > 6} />
-            <ReceiveRegstrationFees
+            <SendMohereApproval isDone={order > 5} setRefresh={setRefresh} />
+            <SendEval isDone={order > 6} setRefresh={setRefresh} />
+
+            <ReceiveVisaFees
+              requestDetails={requestDetails}
               isDone={order > 7}
               setRefresh={setRefresh}
             />
-            <FinalAcceptance isDone={order > 8} setRefresh={setRefresh} />
+            <EMGSApproval setRefresh={setRefresh} isDone={order > 8} />
+            <ReceiveRegstrationFees
+              isDone={order > 9}
+              requestDetails={requestDetails}
+              setRefresh={setRefresh}
+            />
+            <FinalAcceptance isDone={order > 10} setRefresh={setRefresh} />
             <ReciveTicketStep
               setRefresh={setRefresh}
-              isDone={order > 9}
+              isDone={order > 11}
               requestDetails={requestDetails}
             />
             <ReceiveVisaApply
               setRefresh={setRefresh}
-              isDone={order > 10}
+              isDone={order > 12}
               requestDetails={requestDetails}
             />
             <AirPickupReady
-              isDone={order > 11}
+              isDone={order > 13}
               setRefresh={setRefresh}
               requestDetails={requestDetails}
             />

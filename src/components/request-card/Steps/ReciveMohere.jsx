@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 
 const ReciveMohere = ({ requestDetails, setRefresh, isDone }) => {
   const { route, setLoader } = useContext(AppContext);
-  const [totalOrderPrice, setTotalOrderPrice] = useState("");
   const { MOHERE } = requestDetails;
   const params = useParams();
 
@@ -22,9 +21,6 @@ const ReciveMohere = ({ requestDetails, setRefresh, isDone }) => {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        totalOrderPrice: +totalOrderPrice,
-      }),
     })
       .then((res) => res.json())
       .then((res) => {
@@ -56,15 +52,6 @@ const ReciveMohere = ({ requestDetails, setRefresh, isDone }) => {
         </button>
       </div>
       <form onSubmit={onNextStep}>
-        <label htmlFor="totalOrderPrice" style={{ paddingRight: "20px" }}>
-          Total Order Price (of next step) :
-        </label>
-        <input
-          type="number"
-          id="totalOrderPrice"
-          required
-          onChange={(e) => setTotalOrderPrice(e.target.value)}
-        />
         <div
           style={{
             display: "flex",

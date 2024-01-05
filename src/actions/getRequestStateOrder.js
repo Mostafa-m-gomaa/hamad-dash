@@ -5,6 +5,8 @@ export const getRequestStateOrder = (step) => {
     "sending_offerLetter",
     "deliver_and_sign_offerLetter",
     "get_copy_of_mohere",
+    "mohere_approval",
+    "EVAL",
     "visa_fees",
     "getting_EMGS_approval",
     "registration_fees",

@@ -1,26 +1,28 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { toast } from "react-toastify";
 
-const ContactStep = ({ requestDetails, setRefresh, isDone }) => {
-  const [contactFile, setContactFile] = useState(null);
+const SendMohereApproval = ({ setRefresh, isDone }) => {
+  const [offerLetterFile, setOfferLetterFile] = useState(null);
+
   const { route, setLoader } = useContext(AppContext);
-  const [totalOrderPrice, setTotalOrderPrice] = useState("");
-  const { signedContract } = requestDetails;
   const params = useParams();
   const onSubmit = (e) => {
     e.preventDefault();
     const data = new FormData();
-    data.append("contract", contactFile);
+    data.append("MOHEREApproval", offerLetterFile);
     setLoader(true);
-    fetch(`${route}/progress/uploadContract/${params.id}/${params.type}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-      },
-      body: data,
-    })
+    fetch(
+      `${route}/progress/uploadMOHEREApproval/${params.id}/${params.type}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+        body: data,
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         toast.success(data.message);
@@ -29,9 +31,6 @@ const ContactStep = ({ requestDetails, setRefresh, isDone }) => {
         toast.error(err.message);
       })
       .finally(() => setLoader(false));
-  };
-  const downloadFile = () => {
-    window.open(signedContract, "_blank");
   };
 
   const onNextStep = (e) => {
@@ -43,9 +42,6 @@ const ContactStep = ({ requestDetails, setRefresh, isDone }) => {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        totalOrderPrice: +totalOrderPrice,
-      }),
     })
       .then((res) => res.json())
       .then((res) => {
@@ -59,17 +55,17 @@ const ContactStep = ({ requestDetails, setRefresh, isDone }) => {
   };
   return (
     <div className={`details ${isDone ? "done" : ""}`}>
-      <h2>Contract Step</h2>
+      <h2>Send Mohere approval step</h2>
       <form onSubmit={onSubmit}>
-        <label htmlFor="contactFile" style={{ paddingRight: "20px" }}>
-          Contact File (pdf) :
+        <label htmlFor="offerLetterFile" style={{ paddingRight: "20px" }}>
+          Mohere approval (pdf) :
         </label>
         <input
           type="file"
-          id="contactFile"
+          id="offerLetterFile"
           accept="application/pdf"
           required
-          onChange={(e) => setContactFile(e.target.files[0])}
+          onChange={(e) => setOfferLetterFile(e.target.files[0])}
         />
         <div
           style={{
@@ -79,26 +75,9 @@ const ContactStep = ({ requestDetails, setRefresh, isDone }) => {
           }}
         >
           <button style={{ margin: "10px" }}>Upload</button>
-          <button
-            disabled={signedContract == null}
-            onClick={downloadFile}
-            type="button"
-            style={{ margin: "10px" }}
-          >
-            Download Signed Contract file
-          </button>
         </div>
       </form>
       <form onSubmit={onNextStep}>
-        <label htmlFor="totalOrderPrice" style={{ paddingRight: "20px" }}>
-          Total Order Price (of next step) :
-        </label>
-        <input
-          type="number"
-          id="totalOrderPrice"
-          required
-          onChange={(e) => setTotalOrderPrice(e.target.value)}
-        />
         <div
           style={{
             display: "flex",
@@ -115,4 +94,4 @@ const ContactStep = ({ requestDetails, setRefresh, isDone }) => {
   );
 };
 
-export default ContactStep;
+export default SendMohereApproval;

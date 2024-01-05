@@ -5,10 +5,30 @@ import { toast } from "react-toastify";
 
 const EMGSApproval = ({ setRefresh, isDone }) => {
   const [totalOrderPrice, setTotalOrderPrice] = useState("");
-
+  const [offerLetterFile, setOfferLetterFile] = useState(null);
   const { route, setLoader } = useContext(AppContext);
   const params = useParams();
-
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    data.append("EMGS", offerLetterFile);
+    setLoader(true);
+    fetch(`${route}/progress/uploadEMGS/${params.id}/${params.type}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        toast.success(data.message);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      })
+      .finally(() => setLoader(false));
+  };
   const onNextStep = (e) => {
     e.preventDefault();
     setLoader(true);
@@ -35,6 +55,27 @@ const EMGSApproval = ({ setRefresh, isDone }) => {
   return (
     <div className={`details ${isDone ? "done" : ""}`}>
       <h2>EMGS Approval</h2>
+      <form onSubmit={onSubmit}>
+        <label htmlFor="offerLetterFile" style={{ paddingRight: "20px" }}>
+          EMGS approval (pdf) :
+        </label>
+        <input
+          type="file"
+          id="offerLetterFile"
+          accept="application/pdf"
+          required
+          onChange={(e) => setOfferLetterFile(e.target.files[0])}
+        />
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          <button style={{ margin: "10px" }}>Upload</button>
+        </div>
+      </form>
       <form onSubmit={onNextStep}>
         <label htmlFor="totalOrderPrice" style={{ paddingRight: "20px" }}>
           Total Order Price (of next step) :

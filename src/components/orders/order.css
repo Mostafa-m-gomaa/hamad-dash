@@ -1,0 +1,22 @@
+.filter-from div {
+  margin-bottom: 10px;
+}
+.filter-from div label {
+  margin-right: 10px;
+  display: block;
+  font-weight: 600;
+  color: white;
+}
+.filter-from button {
+  margin-top: 10px;
+  display: block;
+  width: fit-content;
+  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: chocolate;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}

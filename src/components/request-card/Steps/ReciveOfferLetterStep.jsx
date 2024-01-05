@@ -11,7 +11,6 @@ const ReciveOfferLetterStep = ({ requestDetails, setRefresh, isDone }) => {
   const downloadFile = () => {
     window.open(signedOfferLetter, "_blank");
   };
-  console.log(requestDetails);
   const onNextStep = (e) => {
     e.preventDefault();
     setLoader(true);

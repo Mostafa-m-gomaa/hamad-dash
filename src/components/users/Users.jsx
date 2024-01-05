@@ -14,6 +14,7 @@ const Users = () => {
   const { route, setLoader } = useContext(AppContext);
   const [users, setUsers] = useState([]);
   const [role, setRole] = useState("");
+  const [phone, setPhone] = useState("");
   const [userName, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,6 +36,7 @@ const Users = () => {
           password: password,
           passwordConfirm: passwordConfirmation,
           role: role,
+          phone: phone,
         }),
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -129,6 +131,10 @@ const Users = () => {
               <input onChange={(e) => setEmail(e.target.value)} type="text" />
             </label>
             <label htmlFor="">
+              Phone
+              <input onChange={(e) => setPhone(e.target.value)} type="text" />
+            </label>
+            <label htmlFor="">
               Password
               <input
                 onChange={(e) => setPassword(e.target.value)}
@@ -175,6 +181,7 @@ const Users = () => {
               <th>Email</th>
               <th>Role</th>
               <th>Request Type</th>
+              <th>Phone</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -186,12 +193,13 @@ const Users = () => {
                   <td>{item.email}</td>
                   <td>{item.role}</td>
                   <td>{item.role === "user" ? item.type : "-"}</td>
+                  <td>{item.phone}</td>
                   <td className="buttons">
                     {item.role === "employee" && (
                       <Link to={`/employer-requests/${item.id}`}>History</Link>
                     )}
 
-                    <button onClick={() => deleteButton(user.id)}>
+                    <button onClick={() => deleteButton(item.id)}>
                       Delete
                     </button>
                   </td>

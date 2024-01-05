@@ -5,6 +5,8 @@ export const navigationLinks = [
   { id: 1, title: "users" },
   { id: 3, title: "requests" },
   { id: 4, title: "orders" },
+  { id: 5, title: "countries" },
+  { id: 6, title: "services" },
 ];
 
 export const transactions = [
