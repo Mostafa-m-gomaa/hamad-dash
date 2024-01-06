@@ -97,6 +97,26 @@ const RequestCard = () => {
       link: requestDoc?.contract,
     },
     {
+      name: "EMGS",
+      link: requestDoc?.EMGS,
+    },
+    {
+      name: "EVAL",
+      link: requestDoc?.EVAL,
+    },
+    {
+      name: "contractFeesFile",
+      link: requestDoc?.contractFeesFile,
+    },
+    {
+      name: "registrationFeesFile",
+      link: requestDoc?.registrationFeesFile,
+    },
+    {
+      name: "visaFeesFile",
+      link: requestDoc?.visaFeesFile,
+    },
+    {
       name: "Signed Contract",
       link: requestDoc?.signedContract,
     },

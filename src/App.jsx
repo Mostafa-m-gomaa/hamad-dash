@@ -15,6 +15,7 @@ import RequestProgress from "./components/request-card/RequestProgress";
 import Orders from "./components/orders/Orders";
 import Country from "./components/Country";
 import Services from "./components/Services";
+import Notifications from "./components/notifications/Notifications";
 
 export const AppContext = createContext();
 
@@ -23,6 +24,8 @@ function App() {
   const [login, setLogin] = useState(false);
   const [route, setRoute] = useState("https://api.hamad-edu.com/api/v1");
   const [employee, setEmployee] = useState(false);
+  const role = sessionStorage.getItem("role");
+  const [notifications, setNotifications] = useState([]);
 
   const [loader, setLoader] = useState(false);
 
@@ -33,6 +36,27 @@ function App() {
     } else {
       setEmployee(false);
     }
+    const getNotification = () => {
+      if (sessionStorage.getItem("role") === "employee") {
+        fetch(`${route}/notification/myNotification`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.notifications) setNotifications(data.notifications);
+          })
+          .catch((err) => console.log(err));
+      }
+    };
+    const inter = setInterval(() => {
+      getNotification();
+    }, 5000);
+
+    return () => {
+      clearInterval(inter);
+    };
   }, [login]);
   return (
     <AppContext.Provider
@@ -45,6 +69,8 @@ function App() {
         setLoader,
         employee,
         setEmployee,
+        notifications,
+        setNotifications,
       }}
     >
       <>
@@ -74,6 +100,7 @@ function App() {
               <Route path="/services" element={<Services />} />
               <Route path="/employers" element={<Employers />} />
               <Route path="/orders" element={<Orders />} />
+              <Route path="/notifications" element={<Notifications />} />
               <Route path="/employer-requests" element={<EmployerRequests />} />
               <Route
                 path="/employer-requests/:id"

@@ -283,13 +283,18 @@ const Requests = () => {
                   <Link to={`/request/${item.title}/${item.id}`}>Details</Link>
 
                   {item.Eligibility !== "pending" && (
-                    <button
-                      onClick={() =>
-                        clickAssign(item.id, item.UserId, item?.employeeId)
-                      }
-                    >
-                      Assign to emp
-                    </button>
+                    <>
+                      <button
+                        onClick={() =>
+                          clickAssign(item.id, item.UserId, item?.employeeId)
+                        }
+                      >
+                        Assign to emp
+                      </button>
+                      <Link to={`/request-progress/${item.title}/${item.id}`}>
+                        progress
+                      </Link>
+                    </>
                   )}
                 </td>
               </tr>
@@ -340,13 +345,18 @@ const Requests = () => {
                   <Link to={`/request/${item.title}/${item.id}`}>Details</Link>
 
                   {item.Eligibility !== "pending" && (
-                    <button
-                      onClick={() =>
-                        clickAssign(item.id, item.UserId, item?.employeeId)
-                      }
-                    >
-                      Assign to emp
-                    </button>
+                    <>
+                      <button
+                        onClick={() =>
+                          clickAssign(item.id, item.UserId, item?.employeeId)
+                        }
+                      >
+                        Assign to emp
+                      </button>
+                      <Link to={`/request-progress/${item.title}/${item.id}`}>
+                        progress
+                      </Link>
+                    </>
                   )}
                 </td>
               </tr>
@@ -397,13 +407,18 @@ const Requests = () => {
                   <Link to={`/request/${item.title}/${item.id}`}>Details</Link>
 
                   {item.Eligibility !== "pending" && (
-                    <button
-                      onClick={() =>
-                        clickAssign(item.id, item.UserId, item?.employeeId)
-                      }
-                    >
-                      Assign to emp
-                    </button>
+                    <>
+                      <button
+                        onClick={() =>
+                          clickAssign(item.id, item.UserId, item?.employeeId)
+                        }
+                      >
+                        Assign to emp
+                      </button>
+                      <Link to={`/request-progress/${item.title}/${item.id}`}>
+                        progress
+                      </Link>
+                    </>
                   )}
                 </td>
               </tr>

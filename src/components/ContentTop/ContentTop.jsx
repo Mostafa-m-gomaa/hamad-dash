@@ -1,11 +1,20 @@
 import { iconsImgs } from "../../utils/images";
 import "./ContentTop.css";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SidebarContext } from "../../context/sidebarContext";
 import { AppContext } from "../../App";
+import { Link } from "react-router-dom";
 
 const ContentTop = ({ headTitle }) => {
   const { toggleSidebar } = useContext(SidebarContext);
+  const [notRead, setNotRead] = useState(0);
+  const { notifications } = useContext(AppContext);
+  useEffect(() => {
+    const count = notifications?.filter((notification) => {
+      return notification.isRead === false;
+    })?.length;
+    if (count) setNotRead(count);
+  }, [notifications]);
   return (
     <div className="main-content-top">
       <div className="content-top-left">
@@ -19,9 +28,14 @@ const ContentTop = ({ headTitle }) => {
         <h3 className="content-top-title">{headTitle}</h3>
       </div>
       <div className="content-top-btns">
-        <button type="button" className="search-btn content-top-btn">
-          <img src={iconsImgs.search} alt="" />
-        </button>
+        {sessionStorage.getItem("role") === "employee" && (
+          <Link to="/notifications" className="notification">
+            <img src={iconsImgs?.bell} alt="" />
+            <span>
+              {notRead > 0 && <span className="not-read">{notRead}</span>}
+            </span>
+          </Link>
+        )}
       </div>
     </div>
   );

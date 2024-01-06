@@ -28,6 +28,7 @@ const Orders = () => {
       .catch((err) => console.log(err))
       .finally(() => setLoader(false));
   }, [reFresh, route, setLoader]);
+  console.log(orders);
   return (
     <>
       <ContentTop headTitle="All Orders" />
@@ -72,6 +73,8 @@ const Orders = () => {
             <tr>
               <th>Paid</th>
               <th>total price</th>
+              <th>created at</th>
+              <th>paid at</th>
               <th>request type </th>
               <th>order type </th>
               <th>request details </th>
@@ -82,6 +85,8 @@ const Orders = () => {
               <tr key={order.id}>
                 <td>{order.isPaid ? "yes" : "no"}</td>
                 <td>{order.totalOrderPrice}</td>
+                <td>{new Date(order.createdAt).toDateString()}</td>
+                <td>{new Date(order.paidAt).toDateString()}</td>
                 <td>{order.requestType}</td>
                 <td>{order.type}</td>
                 <td>

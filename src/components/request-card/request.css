@@ -58,4 +58,7 @@
 }
 .request-card .container .details.done {
   border: 4px solid green;
-}/*# sourceMappingURL=request.css.map */
+}
+.request-card .container .details:not(.done):first-child {
+  border: 4px solid gray;
+} /*# sourceMappingURL=request.css.map */
