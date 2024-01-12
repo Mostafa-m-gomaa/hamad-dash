@@ -47,12 +47,20 @@ const Sidebar = () => {
               </li>
 
               {employee ? (
-                <li className="nav-item">
-                  <NavLink to={`/employer-requests`} className={`nav-link `}>
-                    <BsFillArrowRightSquareFill />
-                    <span className="nav-link-text">My Requests</span>
-                  </NavLink>
-                </li>
+                <>
+                  <li className="nav-item">
+                    <NavLink to={`/employer-requests`} className={`nav-link `}>
+                      <BsFillArrowRightSquareFill />
+                      <span className="nav-link-text">My Requests</span>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to={`/users`} className={`nav-link `}>
+                      <BsFillArrowRightSquareFill />
+                      <span className="nav-link-text">Users</span>
+                    </NavLink>
+                  </li>
+                </>
               ) : (
                 navigationLinks.map((navigationLink) => (
                   <li className="nav-item" key={navigationLink.id}>

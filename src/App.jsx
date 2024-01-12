@@ -16,6 +16,7 @@ import Orders from "./components/orders/Orders";
 import Country from "./components/Country";
 import Services from "./components/Services";
 import Notifications from "./components/notifications/Notifications";
+import RequestLogs from "./components/request-card/RequestLogs";
 
 export const AppContext = createContext();
 
@@ -40,7 +41,7 @@ function App() {
       if (sessionStorage.getItem("role") === "employee") {
         fetch(`${route}/notification/myNotification`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           },
         })
           .then((res) => res.json())
@@ -97,6 +98,7 @@ function App() {
               <Route path="/" element={<Login />} />
               <Route path="/users" element={<Users />} />
               <Route path="/countries" element={<Country />} />
+              <Route path="/logs/:id" element={<RequestLogs />} />
               <Route path="/services" element={<Services />} />
               <Route path="/employers" element={<Employers />} />
               <Route path="/orders" element={<Orders />} />

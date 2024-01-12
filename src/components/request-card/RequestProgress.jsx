@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { AppContext } from "../../App";
 
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ContentTop from "../ContentTop/ContentTop";
 import ContactStep from "./Steps/ContactStep";
 import SendOfferLetterStep from "./Steps/SendOfferLetterStep";
@@ -59,10 +59,24 @@ const RequestProgress = () => {
   console.log(order);
   return (
     <div className="request-card">
-      <ContentTop headTitle="Request Details" />
+      <ContentTop headTitle="Request progress" />
       <h1 style={{ margin: "20px", textAlign: "center" }}>
         Current State: {request.currentStep}
       </h1>
+      <Link
+        to={`/logs/${param.id}`}
+        style={{
+          display: " block",
+          width: "fit-content",
+          padding: "0.5rem 2rem",
+          margin: "10px auto",
+          backgroundColor: "#fe6c00",
+          color: "#0e0a08",
+          fontWeight: " 700",
+        }}
+      >
+        Request Logs
+      </Link>
       <div className="container">
         <ContactStep
           isDone={order > 0}
@@ -90,14 +104,14 @@ const RequestProgress = () => {
           setRefresh={setRefresh}
         />
         <SendMohereApproval isDone={order > 5} setRefresh={setRefresh} />
-        <SendEval isDone={order > 6} setRefresh={setRefresh} />
 
         <ReceiveVisaFees
           requestDetails={requestDetails}
-          isDone={order > 7}
+          isDone={order > 6}
           setRefresh={setRefresh}
         />
-        <EMGSApproval setRefresh={setRefresh} isDone={order > 8} />
+        <EMGSApproval setRefresh={setRefresh} isDone={order > 7} />
+        <SendEval isDone={order > 8} setRefresh={setRefresh} />
         <ReceiveRegstrationFees
           isDone={order > 9}
           requestDetails={requestDetails}

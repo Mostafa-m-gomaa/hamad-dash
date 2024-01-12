@@ -13,7 +13,7 @@ const Notifications = () => {
     fetch(`${route}/notification/markAllsAsRead`, {
       method: "PUT",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
     })
       .then((res) => res.json())
@@ -36,17 +36,18 @@ const Notifications = () => {
       fetch(`${route}/notification/${notId}/read`, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
       })
         .then((res) => res.json())
-        .then(() => {
+        .then((res) => {
           setNotifications((prev) =>
             prev.map((notification) => {
               if (notification.id === notId) notification.isRead = true;
               return notification;
             })
           );
+          console.log(res);
           getType(reqId);
         })
         .catch((err) => console.log(err))

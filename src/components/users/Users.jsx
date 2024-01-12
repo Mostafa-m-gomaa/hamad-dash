@@ -6,6 +6,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ContentTop from "../ContentTop/ContentTop";
 import { Link } from "react-router-dom";
+import { countries } from "../../data/countries";
+import UserRow from "./UserRow";
 
 const Users = () => {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -19,11 +21,10 @@ const Users = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [filter, setFilter] = useState("all");
-  const deleteButton = (id) => {
-    setShowConfirm(true);
-    setArtId(id);
-  };
+  const [filter, setFilter] = useState("");
+  const myRole = sessionStorage.getItem("role");
+  const [country, setCountry] = useState("");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoader(true);
@@ -37,6 +38,7 @@ const Users = () => {
           passwordConfirm: passwordConfirmation,
           role: role,
           phone: phone,
+          country: country,
         }),
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -56,37 +58,8 @@ const Users = () => {
       }
     } catch (error) {}
   };
-
-  const deleteArt = async () => {
-    setShowConfirm(false);
-    setLoader(true);
-
-    try {
-      const response = await fetch(`${route}/users/${artId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-      });
-      console.log(response);
-      if (response.ok) {
-        toast.success("Deleted Successfully");
-        setRefresh(!refresh);
-      } else if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      // Only try to parse JSON if the response has content
-      const data = response.status !== 204 ? await response.json() : null;
-
-      setLoader(false);
-    } catch (error) {
-      setLoader(false);
-    }
-  };
-
   useEffect(() => {
-    fetch(`${route}/users${filter === "employee" ? "/employees" : ""}`, {
+    fetch(`${route}/users${filter ? `/${filter}` : ""}`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
@@ -98,116 +71,122 @@ const Users = () => {
         }
       });
   }, [refresh, filter, route]);
+
   return (
     <div className="articles">
       <ContentTop headTitle="Users" />
 
-      {showConfirm ? (
-        <div className="confirm">
-          <div>are yoy sure ?</div>
-          <div className="btns">
-            <button onClick={deleteArt} className="yes">
-              Yes
-            </button>
-            <button onClick={() => setShowConfirm(false)} className="no">
-              No
-            </button>
-          </div>
-        </div>
-      ) : null}
       <div className="container">
-        <div className="add">
-          <h1>Add User</h1>
-          <form action="" onSubmit={handleSubmit}>
-            <label htmlFor="">
-              Name
-              <input
-                onChange={(e) => setUsername(e.target.value)}
-                type="text"
-              />
-            </label>
-            <label htmlFor="">
-              Email
-              <input onChange={(e) => setEmail(e.target.value)} type="text" />
-            </label>
-            <label htmlFor="">
-              Phone
-              <input onChange={(e) => setPhone(e.target.value)} type="text" />
-            </label>
-            <label htmlFor="">
-              Password
-              <input
-                onChange={(e) => setPassword(e.target.value)}
-                type="text"
-              />
-            </label>
-            <label htmlFor="">
-              confirm Password
-              <input
-                onChange={(e) => setPasswordConfirmation(e.target.value)}
-                type="text"
-              />
-            </label>
-            <label htmlFor="">
-              Role
-              <select name="" id="" onChange={(e) => setRole(e.target.value)}>
-                <option value="">select role</option>
-                <option value="user">user</option>
-                <option value="admin">admin</option>
-                <option value="employee">employee</option>
+        {myRole === "admin" && (
+          <>
+            <div className="add">
+              <h1>Add User</h1>
+              <form action="" onSubmit={handleSubmit}>
+                <label htmlFor="">
+                  Name
+                  <input
+                    onChange={(e) => setUsername(e.target.value)}
+                    type="text"
+                  />
+                </label>
+                <label htmlFor="">
+                  Email
+                  <input
+                    onChange={(e) => setEmail(e.target.value)}
+                    type="text"
+                  />
+                </label>
+                <label htmlFor="">
+                  Phone
+                  <input
+                    onChange={(e) => setPhone(e.target.value)}
+                    type="text"
+                  />
+                </label>
+                <label htmlFor="">
+                  Password
+                  <input
+                    onChange={(e) => setPassword(e.target.value)}
+                    type="text"
+                  />
+                </label>
+                <label htmlFor="">
+                  confirm Password
+                  <input
+                    onChange={(e) => setPasswordConfirmation(e.target.value)}
+                    type="text"
+                  />
+                </label>
+                <label htmlFor="">
+                  Role
+                  <select
+                    name=""
+                    id=""
+                    onChange={(e) => setRole(e.target.value)}
+                  >
+                    <option value="">select role</option>
+                    <option value="user">user</option>
+                    <option value="admin">admin</option>
+                    <option value="employee">employee</option>
+                  </select>
+                </label>
+                <label htmlFor="">
+                  Country
+                  <select
+                    onChange={(e) => setCountry(e.target.value)}
+                    required
+                    className="input"
+                  >
+                    <option value="">country</option>
+                    {countries.map((country) => (
+                      <option value={country.value} key={country.value}>
+                        {country.value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button type="submit">add</button>
+              </form>
+            </div>
+            <div>
+              <label style={{ fontSize: "25px", fontWeight: "700" }}>
+                Filter :{" "}
+              </label>
+              <select
+                style={{ padding: "10px" }}
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+              >
+                <option value="">all</option>
+                <option value="employee">employees only</option>
+                <option value="user">user only</option>
+                <option value="admin">admin only</option>
               </select>
-            </label>
-
-            <button type="submit">add</button>
-          </form>
-        </div>
-        <div>
-          <label style={{ fontSize: "25px", fontWeight: "700" }}>
-            Filter :{" "}
-          </label>
-          <select
-            style={{ padding: "10px" }}
-            onChange={(e) => setFilter(e.target.value)}
-          >
-            <option value="all">all</option>
-            <option value="employee">employees only</option>
-          </select>
-        </div>
+            </div>
+          </>
+        )}
         <h2 style={{ textAlign: "center" }}>Users</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>UserName</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Request Type</th>
-              <th>Phone</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((item, index) => {
-              return (
-                <tr key={index}>
-                  <td>{item.username}</td>
-                  <td>{item.email}</td>
-                  <td>{item.role}</td>
-                  <td>{item.role === "user" ? item.type : "-"}</td>
-                  <td>{item.phone}</td>
-                  <td className="buttons">
-                    {item.role === "employee" && (
-                      <Link to={`/employer-requests/${item.id}`}>History</Link>
-                    )}
-
-                    <button onClick={() => deleteButton(item.id)}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>UserName</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Request Type</th>
+                <th>Phone</th>
+                <th>Country</th>
+                <th>comment</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((item) => {
+                return <UserRow item={item} key={item.id} />;
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -130,6 +130,11 @@ const RequestCard = () => {
     },
 
     {
+      name: "Final Acceptance Letter",
+      link: requestDoc?.finalAcceptanceLetter,
+    },
+
+    {
       name: "Mohere",
       link: requestDoc?.MOHERE,
     },
@@ -184,7 +189,7 @@ const RequestCard = () => {
                 ))}
               </>
             )}
-            {param.type === "Phd" && (
+            {param.type === "PHD" && (
               <>
                 {phdLinks.map((item, index) => (
                   <a

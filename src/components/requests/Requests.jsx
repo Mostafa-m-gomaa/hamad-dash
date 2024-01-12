@@ -118,7 +118,7 @@ const Requests = () => {
       });
   }, [refresh, route, keyword]);
   useEffect(() => {
-    fetch(`${route}/users/employees`, {
+    fetch(`${route}/users/employee`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
@@ -215,8 +215,8 @@ const Requests = () => {
           <option value="all">all</option>
           {countries.map((item, index) => {
             return (
-              <option key={index} value={item.title}>
-                {item.title}
+              <option key={index} value={item.title_en}>
+                {item.title_en} - {item.title_ar}
               </option>
             );
           })}
@@ -232,8 +232,8 @@ const Requests = () => {
           <option value="all">all</option>
           {services.map((item, index) => {
             return (
-              <option key={index} value={item.title}>
-                {item.title}
+              <option key={index} value={item.title_en}>
+                {item.title_en} - {item.title_ar}
               </option>
             );
           })}

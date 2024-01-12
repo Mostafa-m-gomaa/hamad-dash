@@ -45,7 +45,11 @@ const Login = () => {
         sessionStorage.setItem("role", response.data.role);
 
         setLogin(true);
-        history("/users");
+        if (response.data.role === "employee") {
+          history("/employer-requests");
+        } else {
+          history("/users");
+        }
       } else {
         toast.error("هناك خطأ بكلمة السر أو الأيميل حاول مرة أخري");
       }

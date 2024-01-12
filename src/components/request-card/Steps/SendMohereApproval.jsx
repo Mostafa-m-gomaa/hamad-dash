@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { toast } from "react-toastify";
+import NextStep from "../../NextStep";
 
 const SendMohereApproval = ({ setRefresh, isDone }) => {
   const [offerLetterFile, setOfferLetterFile] = useState(null);
@@ -33,26 +34,6 @@ const SendMohereApproval = ({ setRefresh, isDone }) => {
       .finally(() => setLoader(false));
   };
 
-  const onNextStep = (e) => {
-    e.preventDefault();
-    setLoader(true);
-    fetch(`${route}/progress/nextStep/${params.id}/${params.type}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        toast.success(res.msg);
-        setRefresh((prev) => prev + 1);
-      })
-      .catch((err) => {
-        toast.error(err.message);
-      })
-      .finally(() => setLoader(false));
-  };
   return (
     <div className={`details ${isDone ? "done" : ""}`}>
       <h2>Send Mohere approval step</h2>
@@ -77,19 +58,7 @@ const SendMohereApproval = ({ setRefresh, isDone }) => {
           <button style={{ margin: "10px" }}>Upload</button>
         </div>
       </form>
-      <form onSubmit={onNextStep}>
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          <button type="submit" style={{ margin: "10px" }}>
-            Next
-          </button>
-        </div>
-      </form>
+      <NextStep setRefresh={setRefresh} withNumber={true} />
     </div>
   );
 };

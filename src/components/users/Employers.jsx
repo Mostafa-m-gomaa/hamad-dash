@@ -101,7 +101,7 @@ const Employers = () => {
 
       {showConfirm ? (
         <div className="confirm">
-          <div>are yoy sure ?</div>
+          <div>are you sure ?</div>
           <div className="btns">
             <button onClick={deleteArt} className="yes">
               Yes

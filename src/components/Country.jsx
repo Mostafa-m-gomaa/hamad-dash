@@ -5,17 +5,21 @@ import { AppContext } from "../App";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ContentTop from "./ContentTop/ContentTop";
-import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+//
 const Country = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [artId, setArtId] = useState("");
   const [refresh, setRefresh] = useState(false);
   const { route, setLoader } = useContext(AppContext);
   const [data, setData] = useState([]);
-  const [title, setTitle] = useState("");
   const [editId, setEditId] = useState("");
-  const [description, setDescription] = useState("");
+  const [titleEn, setTitleEn] = useState("");
+  const [image, setImage] = useState(null);
+  const [titleAr, setTitleAr] = useState("");
+  const [descriptionEn, setDescriptionEn] = useState("");
+  const [descriptionAr, setDescriptionAr] = useState("");
   const inputRef = useRef();
   const deleteButton = (id) => {
     setShowConfirm(true);
@@ -24,15 +28,17 @@ const Country = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoader(true);
+    const formData = new FormData();
+    formData.append("title_ar", titleAr);
+    formData.append("title_en", titleEn);
+    formData.append("description_ar", descriptionAr);
+    formData.append("description_en", descriptionEn);
+    formData.append("image", image);
     fetch(`${route}/countryOfStudy${editId ? `/${editId}` : ""}`, {
       method: editId ? "PUT" : "POST",
-      body: JSON.stringify({
-        title: title,
-        description: description,
-      }),
+      body: formData,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        "Content-Type": "application/json",
       },
     })
       .then((res) => res.json())
@@ -49,8 +55,10 @@ const Country = () => {
       })
       .finally(() => {
         setLoader(false);
-        setTitle("");
-        setDescription("");
+        setTitleEn("");
+        setDescriptionEn("");
+        setDescriptionAr("");
+        setTitleAr("");
         setEditId("");
       });
   };
@@ -97,7 +105,7 @@ const Country = () => {
 
       {showConfirm ? (
         <div className="confirm">
-          <div>are yoy sure ?</div>
+          <div>are you sure ?</div>
           <div className="btns">
             <button onClick={deleteArt} className="yes">
               Yes
@@ -113,20 +121,52 @@ const Country = () => {
           <h1>{editId ? "Edit" : "Add"} County</h1>
           <form action="" onSubmit={handleSubmit}>
             <label htmlFor="">
-              Title
+              Title En
               <input
                 ref={inputRef}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={titleEn}
+                onChange={(e) => setTitleEn(e.target.value)}
+                required
                 type="text"
               />
             </label>
             <label htmlFor="">
-              description
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+              Title Ar
+              <input
+                value={titleAr}
+                onChange={(e) => setTitleAr(e.target.value)}
+                required
                 type="text"
+              />
+            </label>
+            <label htmlFor="">
+              Image (jpeg only)
+              <input
+                onChange={(e) => {
+                  console.log(e.target.files[0]);
+                  setImage(e.target.files[0]);
+                }}
+                required={editId ? false : true}
+                accept="image/jpeg"
+                type="file"
+              />
+            </label>
+            <label htmlFor="" style={{ display: "block" }}>
+              Description En
+              <ReactQuill
+                theme="snow"
+                value={descriptionEn}
+                onChange={setDescriptionEn}
+                required
+              />
+            </label>
+            <label htmlFor="" style={{ display: "block" }}>
+              Description Ar
+              <ReactQuill
+                theme="snow"
+                value={descriptionAr}
+                onChange={setDescriptionAr}
+                required
               />
             </label>
 
@@ -139,7 +179,7 @@ const Country = () => {
           <thead>
             <tr>
               <th>Title</th>
-              <th>description</th>
+              <th>descriptionEn</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -147,14 +187,20 @@ const Country = () => {
             {data.map((item, index) => {
               return (
                 <tr key={index}>
-                  <td>{item.title}</td>
-                  <td>{item.description}</td>
+                  <td>
+                    {item.title_ar} - {item.title_en}
+                  </td>
+                  <td>
+                    {item.description_en} - {item.description_ar}
+                  </td>
                   <td className="buttons">
                     <button
                       onClick={() => {
                         setEditId(item?.id);
-                        setTitle(item?.title);
-                        setDescription(item?.description);
+                        setTitleEn(item?.title_en);
+                        setTitleAr(item?.title_ar);
+                        setDescriptionEn(item?.description_en);
+                        setDescriptionAr(item?.description_ar);
                         inputRef.current.focus();
                         inputRef.current.scrollIntoView({
                           behavior: "smooth",
