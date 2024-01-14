@@ -22,6 +22,7 @@ const RequestCard = () => {
       .then((data) => {
         let final = data.data.find((item) => item.id === param.id);
         setRequest(final);
+        console.log(data);
       })
       .finally(() => setLoader(false));
   }, [route, param.id, param.type, setLoader]);
@@ -147,7 +148,6 @@ const RequestCard = () => {
       link: requestDoc?.ticket,
     },
   ];
-  console.log(requestDoc);
   return (
     <div className="request-card">
       <ContentTop headTitle="Request Details" />

@@ -103,7 +103,7 @@ const EmployerRequests = ({ notMine }) => {
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
           >
-            <option value="all">all</option>
+            <option value="">all</option>
             {countries.map((item, index) => {
               return (
                 <option key={index} value={item.title_en}>
@@ -120,7 +120,7 @@ const EmployerRequests = ({ notMine }) => {
             style={{ padding: "10px" }}
             onChange={(e) => setKeyword(e.target.value)}
           >
-            <option value="all">all</option>
+            <option value="">all</option>
             {services.map((item, index) => {
               return (
                 <option key={index} value={item.title_en}>

@@ -18,6 +18,7 @@ const OrderTabel = () => {
       .then((res) => res.json())
       .then((data) => {
         setOrders(data.requestOrders);
+        console.log(data);
       })
       .catch((err) => console.log(err))
       .finally(() => setLoader(false));

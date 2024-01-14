@@ -56,7 +56,7 @@ const RequestProgress = () => {
     }
   }, [request, route, refresh]);
   const order = getRequestStateOrder(request.currentStep);
-  console.log(order);
+  console.log(requestDetails);
   return (
     <div className="request-card">
       <ContentTop headTitle="Request progress" />

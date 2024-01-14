@@ -1,7 +1,7 @@
 import NextStep from "../../NextStep";
 
 const ReceiveVisaApply = ({ requestDetails, setRefresh, isDone }) => {
-  const { applyingForVisa } = requestDetails;
+  const { applyingForSEV } = requestDetails;
 
   return (
     <div className={`details ${isDone ? "done" : ""}`}>
@@ -13,7 +13,7 @@ const ReceiveVisaApply = ({ requestDetails, setRefresh, isDone }) => {
           justifyContent: "center",
         }}
       >
-        <span>Is Applied : {applyingForVisa ? "Yes" : "No"}</span>
+        <span>Is Applied : {applyingForSEV ? "Yes" : "No"}</span>
       </div>
       <NextStep setRefresh={setRefresh} withNumber={false} />
     </div>

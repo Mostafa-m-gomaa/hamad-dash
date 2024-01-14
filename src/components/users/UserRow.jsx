@@ -142,7 +142,7 @@ const UserRow = ({ item }) => {
                     {commentC?.creator?.username} - {commentC?.creator?.email}
                   </td>
                   <td>{commentC?.content}</td>
-                  <td>{new Date(commentC?.createdAt).toDateString()}</td>
+                  <td>{new Date(commentC?.createdAt).toISOString  ()}</td>
                   {role === "admin" && (
                     <td>
                       <button
