@@ -148,6 +148,7 @@ const RequestCard = () => {
       link: requestDoc?.ticket,
     },
   ];
+  console.log(request);
   return (
     <div className="request-card">
       <ContentTop headTitle="Request Details" />
@@ -164,42 +165,54 @@ const RequestCard = () => {
             {param.type === "Bachelor" && (
               <>
                 {bacLinks.map((item, index) => (
-                  <a
-                    key={index}
-                    href={`${item.link}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {item.name}
-                  </a>
+                  <>
+                    {item.link && (
+                      <a
+                        key={index}
+                        href={`${item.link}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {item.name}
+                      </a>
+                    )}
+                  </>
                 ))}
               </>
             )}
             {param.type === "Master" && (
               <>
                 {masterLinks.map((item, index) => (
-                  <a
-                    key={index}
-                    href={`${item.link}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {item.name}
-                  </a>
+                  <>
+                    {item.link && (
+                      <a
+                        key={index}
+                        href={`${item.link}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {item.name}
+                      </a>
+                    )}
+                  </>
                 ))}
               </>
             )}
             {param.type === "PHD" && (
               <>
                 {phdLinks.map((item, index) => (
-                  <a
-                    key={index}
-                    href={`${item.link}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {item.name}
-                  </a>
+                  <>
+                    {item.link && (
+                      <a
+                        key={index}
+                        href={`${item.link}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {item.name}
+                      </a>
+                    )}
+                  </>
                 ))}
               </>
             )}
