@@ -17,6 +17,30 @@ const EmployerRequests = ({ notMine }) => {
   const [phd, setPhd] = useState([]);
   const [bechlor, setBechlor] = useState([]);
   const id = useParams();
+  const acceptRequest = (type, id) => {
+    setLoader(true);
+    fetch(`${route}/${type}/${id}/eligibility`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Eligibility: "eligible",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setLoader(false);
+        console.log(data);
+        if (data.status === "fail") {
+          toast.error(data.message);
+        } else if (data.message === "Request status updated successfully") {
+          toast.success("Request status updated successfully");
+          setRefresh(!refresh);
+        }
+      });
+  };
   useEffect(() => {
     if (notMine) {
       fetch(`${route}${notMine && `/crm/${id.id}/requests`}`, {
@@ -175,10 +199,16 @@ const EmployerRequests = ({ notMine }) => {
                       <Link to={`/request/${item.title}/${item.id}`}>
                         Details
                       </Link>
-
                       <Link to={`/request-progress/${item.title}/${item.id}`}>
                         progress
-                      </Link>
+                      </Link>{" "}
+                      {item.Eligibility !== "eligible" && (
+                        <button
+                          onClick={() => acceptRequest(item.title, item.id)}
+                        >
+                          Accept
+                        </button>
+                      )}
                     </td>
                   </tr>
                 );
@@ -227,10 +257,16 @@ const EmployerRequests = ({ notMine }) => {
                       <Link to={`/request/${item.title}/${item.id}`}>
                         Details
                       </Link>
-
                       <Link to={`/request-progress/${item.title}/${item.id}`}>
                         progress
-                      </Link>
+                      </Link>{" "}
+                      {item.Eligibility !== "eligible" && (
+                        <button
+                          onClick={() => acceptRequest(item.title, item.id)}
+                        >
+                          Accept
+                        </button>
+                      )}
                     </td>
                   </tr>
                 );
@@ -279,10 +315,16 @@ const EmployerRequests = ({ notMine }) => {
                       <Link to={`/request/${item.title}/${item.id}`}>
                         Details
                       </Link>
-
                       <Link to={`/request-progress/${item.title}/${item.id}`}>
                         progress
-                      </Link>
+                      </Link>{" "}
+                      {item.Eligibility !== "eligible" && (
+                        <button
+                          onClick={() => acceptRequest(item.title, item.id)}
+                        >
+                          Accept
+                        </button>
+                      )}
                     </td>
                   </tr>
                 );

@@ -1,17 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useState } from "react";
 import "./article.css";
 import { AppContext } from "../../App";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ContentTop from "../ContentTop/ContentTop";
-import { Link } from "react-router-dom";
 import { countries } from "../../data/countries";
 import UserRow from "./UserRow";
 
 const Users = () => {
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [artId, setArtId] = useState("");
   const [refresh, setRefresh] = useState(false);
   const { route, setLoader } = useContext(AppContext);
   const [users, setUsers] = useState([]);
@@ -24,32 +21,50 @@ const Users = () => {
   const [filter, setFilter] = useState("");
   const myRole = sessionStorage.getItem("role");
   const [country, setCountry] = useState("");
-
+  const [deleteId, setDeleteId] = useState("");
+  const [updateId, setUpdateId] = useState("");
+  const inputRef = useRef();
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoader(true);
     try {
-      const response = await fetch(`${route}/users`, {
-        method: "POST",
-        body: JSON.stringify({
-          username: userName,
-          email: email,
+      let data = {
+        username: userName,
+        email: email,
+        phone: phone,
+        country: country,
+      };
+      if (!updateId) {
+        data = {
+          ...data,
           password: password,
           passwordConfirm: passwordConfirmation,
           role: role,
-          phone: phone,
-          country: country,
-        }),
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res.json());
+        };
+      }
+      const response = await fetch(
+        `${route}/users${updateId && `/${updateId}`}`,
+        {
+          method: updateId ? "PUT" : "POST",
+          body: JSON.stringify(data),
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      ).then((res) => res.json());
       setLoader(false);
-      console.log(response);
       if (response.data) {
         toast.success("Added Successfully");
         setRefresh(!refresh);
+        setUsername("");
+        setEmail("");
+        setPhone("");
+        setRole("");
+        setCountry("");
+        setPassword("");
+        setPasswordConfirmation("");
+        setUpdateId("");
       } else if (response.errors) {
         toast.error(response.errors[0].msg);
       } else {
@@ -72,10 +87,50 @@ const Users = () => {
       });
   }, [refresh, filter, route]);
 
+  const deleteUser = () => {
+    setLoader(true);
+    fetch(`${route}/users/${deleteId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .finally(() => {
+        setLoader(false);
+        setRefresh(!refresh);
+        setDeleteId("");
+      });
+  };
+  const clickUpdate = (user) => {
+    setUpdateId(user.id);
+    setUsername(user.username);
+    setEmail(user.email);
+    setPhone(user.phone);
+    setCountry(user.country);
+
+    inputRef.current.focus();
+    inputRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
   return (
     <div className="articles">
       <ContentTop headTitle="Users" />
-
+      {deleteId ? (
+        <div className="confirm">
+          <div>are you sure ?</div>
+          <div className="btns">
+            <button onClick={deleteUser} className="yes">
+              Yes
+            </button>
+            <button onClick={() => setDeleteId("")} className="no">
+              No
+            </button>
+          </div>
+        </div>
+      ) : null}
       <div className="container">
         {myRole === "admin" && (
           <>
@@ -85,13 +140,16 @@ const Users = () => {
                 <label htmlFor="">
                   Name
                   <input
+                    ref={inputRef}
                     onChange={(e) => setUsername(e.target.value)}
+                    value={userName}
                     type="text"
                   />
                 </label>
                 <label htmlFor="">
                   Email
                   <input
+                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     type="text"
                   />
@@ -100,42 +158,55 @@ const Users = () => {
                   Phone
                   <input
                     onChange={(e) => setPhone(e.target.value)}
+                    value={phone}
                     type="text"
                   />
                 </label>
-                <label htmlFor="">
-                  Password
-                  <input
-                    onChange={(e) => setPassword(e.target.value)}
-                    type="text"
-                  />
-                </label>
-                <label htmlFor="">
-                  confirm Password
-                  <input
-                    onChange={(e) => setPasswordConfirmation(e.target.value)}
-                    type="text"
-                  />
-                </label>
-                <label htmlFor="">
-                  Role
-                  <select
-                    name=""
-                    id=""
-                    onChange={(e) => setRole(e.target.value)}
-                  >
-                    <option value="">select role</option>
-                    <option value="user">user</option>
-                    <option value="admin">admin</option>
-                    <option value="employee">employee</option>
-                  </select>
-                </label>
+                {!updateId && (
+                  <>
+                    <label htmlFor="">
+                      Password
+                      <input
+                        onChange={(e) => setPassword(e.target.value)}
+                        type="text"
+                        value={password}
+                      />
+                    </label>
+                    <label htmlFor="">
+                      confirm Password
+                      <input
+                        onChange={(e) =>
+                          setPasswordConfirmation(e.target.value)
+                        }
+                        value={passwordConfirmation}
+                        pattern={password}
+                        type="text"
+                      />
+                    </label>{" "}
+                    <label htmlFor="">
+                      Role
+                      <select
+                        value={role}
+                        name=""
+                        id=""
+                        onChange={(e) => setRole(e.target.value)}
+                      >
+                        <option value="">select role</option>
+                        <option value="user">user</option>
+                        <option value="admin">admin</option>
+                        <option value="employee">employee</option>
+                      </select>
+                    </label>
+                  </>
+                )}
+
                 <label htmlFor="">
                   Country
                   <select
                     onChange={(e) => setCountry(e.target.value)}
                     required
                     className="input"
+                    value={country}
                   >
                     <option value="">country</option>
                     {countries.map((country) => (
@@ -182,7 +253,14 @@ const Users = () => {
             </thead>
             <tbody>
               {users.map((item) => {
-                return <UserRow item={item} key={item.id} />;
+                return (
+                  <UserRow
+                    onDelete={(id) => setDeleteId(id)}
+                    item={item}
+                    key={item.id}
+                    clickUpdate={clickUpdate}
+                  />
+                );
               })}
             </tbody>
           </table>

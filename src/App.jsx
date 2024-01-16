@@ -51,13 +51,7 @@ function App() {
           .catch((err) => console.log(err));
       }
     };
-    const inter = setInterval(() => {
-      getNotification();
-    }, 5000);
-
-    return () => {
-      clearInterval(inter);
-    };
+    getNotification();
   }, [login]);
   return (
     <AppContext.Provider

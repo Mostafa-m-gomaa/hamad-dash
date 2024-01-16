@@ -8,6 +8,7 @@
   box-sizing: border-box;
   font-family: 'Cairo', sans-serif;
 }
+
 .container{
   width: 90%;
   margin: auto;
@@ -701,7 +702,8 @@ table a,table button {
   color: white;
   font-weight: 600;
   font-size: 16px;
-  padding: 5px 15px ;
+  padding: 5px 10px ;
+  font-size: 12px;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;

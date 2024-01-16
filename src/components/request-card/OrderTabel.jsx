@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { AppContext } from "../../App";
 import { toast } from "react-toastify";
+import moment from "moment-timezone";
 
 const OrderTabel = () => {
   const [orders, setOrders] = useState([]);
@@ -58,8 +59,16 @@ const OrderTabel = () => {
             <tr key={order.id}>
               <td>{order.isPaid ? "yes" : "no"}</td>
               <td>{order.totalOrderPrice}</td>{" "}
-              <td>{new Date(order.createdAt).toDateString()}</td>
-              <td>{new Date(order.paidAt).toDateString()}</td>
+              <td>
+                {moment(order.createdAt)
+                  .tz("Asia/Dubai")
+                  .format("ddd MMM DD YYYY")}
+              </td>
+              <td>
+                {moment(order.paidAt)
+                  .tz("Asia/Dubai")
+                  .format("ddd MMM DD YYYY")}
+              </td>
               <td>{order.requestType}</td>
               <td>{order.type}</td>
               <td>

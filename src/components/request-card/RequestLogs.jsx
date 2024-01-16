@@ -6,6 +6,7 @@ import { AppContext } from "../../App";
 import { Link, useParams } from "react-router-dom";
 import ContentTop from "../ContentTop/ContentTop";
 import "../orders/order.css";
+import moment from "moment-timezone";
 const RequestLogs = () => {
   const { route, setLoader } = useContext(AppContext);
   const { id } = useParams();
@@ -43,7 +44,9 @@ const RequestLogs = () => {
               {Logs?.map((log) => (
                 <tr key={log.id}>
                   <td>{log.message}</td>
-                  <td>{new Date(log.createdAt).toISOString()}</td>
+                  <td>
+                    {moment(log.createdAt).tz("Asia/Dubai").toISOString()}
+                  </td>
                 </tr>
               ))}
             </tbody>

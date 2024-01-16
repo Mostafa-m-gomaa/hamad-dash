@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { AppContext } from "../../App";
 import { toast } from "react-toastify";
 import { BsWhatsapp } from "react-icons/bs";
+import moment from "moment-timezone";
 
-const UserRow = ({ item }) => {
+const UserRow = ({ item, onDelete, clickUpdate }) => {
   const [showCommentId, setShowCommentId] = useState("");
   const [comments, setComments] = useState([]);
   const { route, setLoader } = useContext(AppContext);
@@ -12,6 +13,7 @@ const UserRow = ({ item }) => {
   const [comment, setComment] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const role = sessionStorage.getItem("role");
+
   const getComments = (id) => {
     fetch(`${route}/comment/${id}`, {
       headers: {
@@ -67,7 +69,6 @@ const UserRow = ({ item }) => {
         setDeleteId("");
       });
   };
-  console.log(comments);
   return (
     <>
       {updateId ? (
@@ -136,26 +137,33 @@ const UserRow = ({ item }) => {
               </tr>
             </thead>
             <tbody>
-              {comments.map((commentC) => (
-                <tr key={commentC?.id}>
-                  <td>
-                    {commentC?.creator?.username} - {commentC?.creator?.email}
-                  </td>
-                  <td>{commentC?.content}</td>
-                  <td>{new Date(commentC?.createdAt).toISOString  ()}</td>
-                  {role === "admin" && (
+              {comments.map((commentC) => {
+                return (
+                  <tr key={commentC?.id}>
                     <td>
-                      <button
-                        onClick={() => {
-                          setDeleteId(commentC?.id);
-                        }}
-                      >
-                        Delete
-                      </button>
+                      {commentC?.creator?.username} - {commentC?.creator?.email}
                     </td>
-                  )}
-                </tr>
-              ))}
+                    <td>{commentC?.content}</td>
+                    <td>
+                      {moment(commentC.createdAt)
+                        .tz("Asia/Dubai")
+                        .toISOString()}
+                    </td>
+
+                    {role === "admin" && (
+                      <td>
+                        <button
+                          onClick={() => {
+                            setDeleteId(commentC?.id);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    )}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
           <div className="btns" style={{ justifyContent: "center" }}>
@@ -203,6 +211,12 @@ const UserRow = ({ item }) => {
             <BsWhatsapp />
           </a>
           <button onClick={() => setUpdateId(item.id)}>Add comment</button>
+          {role === "admin" && (
+            <>
+              <button onClick={() => onDelete(item.id)}>Delete user</button>
+              <button onClick={() => clickUpdate(item)}>Update user</button>
+            </>
+          )}
         </td>
       </tr>
     </>

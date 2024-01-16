@@ -3,6 +3,7 @@ import ContentTop from "../ContentTop/ContentTop";
 import { AppContext } from "../../App";
 import "./order.css";
 import { Link } from "react-router-dom";
+import moment from "moment-timezone";
 const Orders = () => {
   const { setLoader, route } = useContext(AppContext);
   const [orders, setOrders] = useState([]);
@@ -85,8 +86,16 @@ const Orders = () => {
               <tr key={order.id}>
                 <td>{order.isPaid ? "yes" : "no"}</td>
                 <td>{order.totalOrderPrice}</td>
-                <td>{new Date(order.createdAt).toDateString()}</td>
-                <td>{new Date(order.paidAt).toDateString()}</td>
+                <td>
+                  {moment(order.createdAt)
+                    .tz("Asia/Dubai")
+                    .format("YYYY-MM-DD HH:mm")}
+                </td>
+                <td>
+                  {moment(order.paidAt)
+                    .tz("Asia/Dubai")
+                    .format("YYYY-MM-DD HH:mm")}
+                </td>
                 <td>{order.requestType}</td>
                 <td>{order.type}</td>
                 <td>

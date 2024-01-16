@@ -256,8 +256,8 @@ const Requests = () => {
             return (
               <tr
                 key={index}
-                className={`${item.Eligibility === "pending" && "pending"} ${
-                  item.Eligibility !== "pending" && !item.employeeId && "noEmp"
+                className={`${!item.employeeId && "pending"} ${
+                  item.Eligibility === "pending" && item.employeeId && "noEmp"
                 } `}
               >
                 <td>
@@ -281,16 +281,15 @@ const Requests = () => {
                     </button>
                   )}
                   <Link to={`/request/${item.title}/${item.id}`}>Details</Link>
-
+                  <button
+                    onClick={() =>
+                      clickAssign(item.id, item.UserId, item?.employeeId)
+                    }
+                  >
+                    Assign to emp
+                  </button>
                   {item.Eligibility !== "pending" && (
                     <>
-                      <button
-                        onClick={() =>
-                          clickAssign(item.id, item.UserId, item?.employeeId)
-                        }
-                      >
-                        Assign to emp
-                      </button>
                       <Link to={`/request-progress/${item.title}/${item.id}`}>
                         progress
                       </Link>
