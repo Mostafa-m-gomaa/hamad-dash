@@ -41,7 +41,7 @@ const ContactStep = ({ requestDetails, setRefresh, isDone }) => {
         <h2>Contract Step</h2>
         <form onSubmit={onSubmit}>
           <label htmlFor="contactFile" style={{ paddingRight: "20px" }}>
-            Contact File (pdf) :
+            Contract File (pdf) :
           </label>
           <input
             type="file"

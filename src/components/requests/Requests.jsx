@@ -342,16 +342,15 @@ const Requests = () => {
                     </button>
                   )}
                   <Link to={`/request/${item.title}/${item.id}`}>Details</Link>
-
+                  <button
+                    onClick={() =>
+                      clickAssign(item.id, item.UserId, item?.employeeId)
+                    }
+                  >
+                    Assign to emp
+                  </button>
                   {item.Eligibility !== "pending" && (
                     <>
-                      <button
-                        onClick={() =>
-                          clickAssign(item.id, item.UserId, item?.employeeId)
-                        }
-                      >
-                        Assign to emp
-                      </button>
                       <Link to={`/request-progress/${item.title}/${item.id}`}>
                         progress
                       </Link>
@@ -404,16 +403,15 @@ const Requests = () => {
                     </button>
                   )}
                   <Link to={`/request/${item.title}/${item.id}`}>Details</Link>
-
+                  <button
+                    onClick={() =>
+                      clickAssign(item.id, item.UserId, item?.employeeId)
+                    }
+                  >
+                    Assign to emp
+                  </button>
                   {item.Eligibility !== "pending" && (
                     <>
-                      <button
-                        onClick={() =>
-                          clickAssign(item.id, item.UserId, item?.employeeId)
-                        }
-                      >
-                        Assign to emp
-                      </button>
                       <Link to={`/request-progress/${item.title}/${item.id}`}>
                         progress
                       </Link>
