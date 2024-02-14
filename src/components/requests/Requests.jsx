@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import "./requests.css";
 import ContentTop from "../ContentTop/ContentTop";
 import { Link } from "react-router-dom";
+import moment from "moment-timezone";
 
 const Requests = () => {
   const { route, setLoader } = useContext(AppContext);
@@ -248,6 +249,7 @@ const Requests = () => {
             <th>Employee</th>
             <th>Current Step</th>
             <th>Eligiblility</th>
+            <th>Date</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -274,6 +276,12 @@ const Requests = () => {
                 </td>
                 <td>{item.currentStep}</td>
                 <td>{item.Eligibility}</td>
+                <td>
+                  {" "}
+                  {moment(item.createdAt)
+                    .tz("Asia/Dubai")
+                    .format("YYYY-MM-DD HH:mm")}
+                </td>
                 <td className="buttons">
                   {item.Eligibility !== "eligible" && (
                     <button onClick={() => acceptRequest(item.title, item.id)}>
@@ -309,6 +317,7 @@ const Requests = () => {
             <th>Employee</th>
             <th>Current Step</th>
             <th>Eligiblility</th>
+            <th>Date</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -334,7 +343,13 @@ const Requests = () => {
                   )}
                 </td>
                 <td>{item.currentStep}</td>
-                <td>{item.Eligibility}</td>
+                <td>{item.Eligibility}</td>{" "}
+                <td>
+                  {" "}
+                  {moment(item.createdAt)
+                    .tz("Asia/Dubai")
+                    .format("YYYY-MM-DD HH:mm")}
+                </td>
                 <td className="buttons">
                   {item.Eligibility !== "eligible" && (
                     <button onClick={() => acceptRequest(item.title, item.id)}>
@@ -370,6 +385,7 @@ const Requests = () => {
             <th>Employee</th>
             <th>Current Step</th>
             <th>Eligiblility</th>
+            <th>Date</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -395,7 +411,13 @@ const Requests = () => {
                   )}
                 </td>
                 <td>{item.currentStep}</td>
-                <td>{item.Eligibility}</td>
+                <td>{item.Eligibility}</td>{" "}
+                <td>
+                  {" "}
+                  {moment(item.createdAt)
+                    .tz("Asia/Dubai")
+                    .format("YYYY-MM-DD HH:mm")}
+                </td>
                 <td className="buttons">
                   {item.Eligibility !== "eligible" && (
                     <button onClick={() => acceptRequest(item.title, item.id)}>

@@ -43,7 +43,7 @@ const EmployerRequests = ({ notMine }) => {
   };
   useEffect(() => {
     if (notMine) {
-      fetch(`${route}${notMine && `/crm/${id.id}/requests`}`, {
+      fetch(`${route}${`/crm/${id.id}/requests`}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
@@ -51,6 +51,7 @@ const EmployerRequests = ({ notMine }) => {
         .then((res) => res.json())
         .then((data) => {
           if (data.data) {
+            console.log(data.data);
             setrRquests(data.data);
           }
         });
