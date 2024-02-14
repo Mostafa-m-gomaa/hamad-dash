@@ -145,9 +145,7 @@ const UserRow = ({ item, onDelete, clickUpdate }) => {
                     </td>
                     <td>{commentC?.content}</td>
                     <td>
-                      {moment(commentC.createdAt)
-                        .tz("Asia/Dubai")
-                        .toISOString()}
+                      {moment(commentC.createdAt).tz("Asia/Dubai").format()}
                     </td>
 
                     {role === "admin" && (

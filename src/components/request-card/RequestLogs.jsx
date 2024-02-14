@@ -41,14 +41,14 @@ const RequestLogs = () => {
               </tr>
             </thead>
             <tbody>
-              {Logs?.map((log) => (
-                <tr key={log.id}>
-                  <td>{log.message}</td>
-                  <td>
-                    {moment(log.createdAt).tz("Asia/Dubai").toISOString()}
-                  </td>
-                </tr>
-              ))}
+              {Logs?.map((log) => {
+                return (
+                  <tr key={log.id}>
+                    <td>{log.message}</td>
+                    <td>{moment(log.createdAt).tz("Asia/Dubai").format()}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>{" "}
